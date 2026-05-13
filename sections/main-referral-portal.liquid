@@ -1,0 +1,210 @@
+{%- comment -%}
+  Port of WP em-referral-program portal-page.php — 3 views (auth / welcome / dashboard).
+  Uses Shopify customer accounts. Referral code = customer.id hashed/encoded.
+{%- endcomment -%}
+
+{%- assign referee_discount = section.settings.referee_discount | default: 20 -%}
+{%- assign referrer_discount = section.settings.referrer_discount | default: 20 -%}
+{%- assign min_order = section.settings.min_order | default: 50 -%}
+
+{%- if customer -%}
+  {%- assign ref_code = customer.id | times: 7 | plus: 1000 -%}
+  {%- assign ref_link = shop.url | append: '/?ref=' | append: ref_code -%}
+  {%- assign coupon_code = 'WELCOME-' | append: ref_code -%}
+  {%- assign share_msg = 'Saat ' | append: referee_discount | append: '% alennuksen Pussikaupasta — käytä linkkiäni: ' | append: ref_link -%}
+  {%- assign view = 'dashboard' -%}
+  {%- if request.url contains 'welcome' or request.path contains 'welcome' or request.page_type contains 'welcome' -%}
+    {%- assign view = 'welcome' -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign view = 'auth' -%}
+{%- endif -%}
+
+<style>
+.emr-wrap{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);min-height:60vh;}
+.emr-auth-grid{max-width:1200px;margin:0 auto;padding:30px 24px 48px;display:flex;flex-direction:row;gap:32px;align-items:stretch;}
+@media(max-width:900px){.emr-auth-grid{flex-direction:column;}}
+.emr-hero{flex:1 1 0%;min-width:0;background:linear-gradient(160deg,var(--bg2),var(--w) 60%,#0b2545);border:1px solid var(--bdr);border-radius:20px;padding:36px 28px;color:var(--txt);position:relative;overflow:hidden;}
+.emr-hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.2);padding:5px 14px;border-radius:24px;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:16px;color:var(--f);}
+.emr-hero-eyebrow span.dot{width:6px;height:6px;background:var(--f);border-radius:50%;}
+.emr-hero h1{font-family:var(--ff);font-size:28px;font-weight:900;line-height:1.15;margin:0 0 10px;letter-spacing:-.5px;color:var(--txt);}
+.emr-hero h1 em{font-style:normal;color:var(--f);}
+.emr-hero p{font-size:14px;line-height:1.65;opacity:.85;margin:0 0 20px;max-width:560px;}
+.emr-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+.emr-step{background:rgba(0,180,216,.07);border:1px solid rgba(0,180,216,.15);border-radius:12px;padding:14px 12px;position:relative;}
+.emr-step-n{position:absolute;top:8px;right:10px;width:20px;height:20px;background:rgba(0,180,216,.12);border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;opacity:.5;color:var(--mu);}
+.emr-step-ico{font-size:22px;margin-bottom:6px;}
+.emr-step-t{font-size:13px;font-weight:700;margin-bottom:3px;}
+.emr-step-d{font-size:11px;opacity:.7;line-height:1.4;color:var(--mu);}
+.emr-trust{display:flex;flex-wrap:wrap;gap:6px 14px;}
+.emr-trust-item{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;opacity:.85;}
+.emr-trust-item svg{flex-shrink:0;}
+
+.emr-auth-card{flex:0 0 460px;width:460px;max-width:460px;background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.2),0 6px 24px rgba(0,0,0,.15);}
+@media(max-width:900px){.emr-auth-card{flex:unset;width:100%;max-width:500px;margin:0 auto;}}
+.emr-auth-card-pad{padding:32px 28px 36px;text-align:center;}
+.emr-auth-card-pad h2{font-family:var(--ff);font-size:22px;font-weight:800;color:var(--txt);margin-bottom:6px;}
+.emr-auth-card-pad p.sub{font-size:13px;color:var(--mu);margin-bottom:24px;line-height:1.5;}
+.emr-auth-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#00b4d8,#00e5ff);color:#0a1628;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none !important;margin-bottom:10px;}
+.emr-auth-btn:hover{opacity:.92;color:#0a1628;}
+.emr-auth-btn--ghost{background:var(--w);color:var(--txt);border:1.5px solid var(--bdr);}
+.emr-auth-btn--ghost:hover{background:var(--bg2);color:var(--txt);border-color:var(--v);}
+
+.emr-portal{max-width:700px;margin:0 auto;padding:20px 16px 48px;}
+.emr-portal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.emr-portal-hdr-name{font-size:22px;font-weight:800;color:var(--txt);font-family:var(--ff);}
+.emr-portal-hdr-sub{font-size:13px;color:var(--mu);}
+.emr-link-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:18px;padding:24px 20px;margin-bottom:16px;}
+.emr-link-eye{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--mu);margin-bottom:8px;}
+.emr-link-h{font-family:var(--ff);font-size:20px;font-weight:800;margin-bottom:4px;color:var(--txt);}
+.emr-link-d{font-size:13px;color:var(--mu);margin-bottom:14px;}
+.emr-link-row{display:flex;gap:8px;margin-bottom:10px;}
+.emr-link-input{flex:1;padding:10px 12px;border:1px solid var(--bdr);border-radius:8px;font-size:13px;color:var(--txt);background:var(--w);font-family:monospace;min-width:0;}
+.emr-link-btn{padding:10px 18px;background:linear-gradient(135deg,#00b4d8,#00e5ff);color:#0a1628;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.emr-share-row{display:flex;gap:8px;margin-bottom:10px;}
+.emr-share-btn{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none !important;border:1px solid var(--bdr);background:rgba(0,180,216,.08);color:var(--txt);cursor:pointer;font-family:inherit;}
+.emr-share-btn:hover{background:rgba(0,180,216,.16);color:var(--txt);}
+.emr-meta{font-size:11px;color:var(--mu);}
+.emr-meta strong{color:var(--txt);}
+.emr-meta strong.coupon{color:var(--f);}
+
+.emr-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.emr-stat{background:var(--w);border:1px solid var(--bdr);border-radius:14px;padding:16px 12px;text-align:center;}
+.emr-stat-n{font-family:var(--ff);font-size:28px;font-weight:800;color:var(--f);line-height:1;margin-bottom:4px;}
+.emr-stat-l{font-size:10px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;}
+
+.emr-card{background:var(--w);border:1px solid var(--bdr);border-radius:14px;padding:18px 16px;margin-bottom:14px;}
+.emr-card h3{font-family:var(--ff);font-size:15px;font-weight:700;margin:0 0 14px;color:var(--txt);}
+.emr-empty{text-align:center;padding:24px;color:var(--mu);}
+.emr-empty-ico{font-size:36px;margin-bottom:8px;}
+
+.emr-welcome{max-width:600px;margin:0 auto;padding:24px 20px 48px;text-align:center;}
+.emr-welcome-ico{font-size:48px;margin-bottom:8px;}
+.emr-welcome h1{font-family:var(--ff);font-size:24px;font-weight:800;color:var(--txt);margin-bottom:6px;}
+.emr-welcome p.lede{font-size:14px;color:var(--mu);margin-bottom:24px;}
+.emr-welcome-how{text-align:left;margin-bottom:24px;}
+.emr-welcome-how h2{font-family:var(--ff);font-size:17px;font-weight:800;color:var(--txt);margin-bottom:14px;}
+.emr-welcome-how-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+</style>
+
+<div class="emr-wrap">
+{%- if view == 'auth' -%}
+  <div class="emr-auth-grid">
+    <div class="emr-hero">
+      <div class="emr-hero-eyebrow"><span class="dot"></span><span>Suosittele &amp; tienaa</span></div>
+      <h1>Anna <em>{{ referee_discount }}%</em>, Saa <em>{{ referrer_discount }}%</em></h1>
+      <p>Liity suositteluohjelmaamme ja säästä heti, kun kaverisi tilaa. Luo tilisi minuuteissa. Saat oman uniikin linkkisi, jonka voit jakaa kaverillesi esimerkiksi WhatsAppilla. Kun kaverisi käyttää linkkiäsi, hän saa automaattisesti <strong>-{{ referee_discount }}%</strong> alennuksen tilauksestaan. Kun kaverisi tilaus on vastaanotettu, lähetämme sinulle alekoodin, joka oikeuttaa <strong>-{{ referrer_discount }}%</strong> alennukseen seuraavasta tilauksestasi. Helppoa. Nopeaa. Tehokasta.</p>
+      <div class="emr-steps">
+        <div class="emr-step"><div class="emr-step-n">1</div><div class="emr-step-ico">🔗</div><div class="emr-step-t">Rekisteröidy ilmaiseksi</div><div class="emr-step-d">Saat oman linkkisi heti</div></div>
+        <div class="emr-step"><div class="emr-step-n">2</div><div class="emr-step-ico">📤</div><div class="emr-step-t">Jaa linkkisi</div><div class="emr-step-d">WhatsApp, sähköposti, somessa</div></div>
+        <div class="emr-step"><div class="emr-step-n">3</div><div class="emr-step-ico">🛒</div><div class="emr-step-t">Kaveri tilaa</div><div class="emr-step-d">Hän saa {{ referee_discount }}% alennuksen automaattisesti</div></div>
+        <div class="emr-step"><div class="emr-step-n">4</div><div class="emr-step-ico">🎁</div><div class="emr-step-t">Sinä tienaat {{ referrer_discount }}%</div><div class="emr-step-d">Kuponki seuraavaan tilaukseesi</div></div>
+      </div>
+      <div class="emr-trust">
+        <div class="emr-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Ei rajoituksia</div>
+        <div class="emr-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Automaattinen alennus</div>
+        <div class="emr-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Seuraa tuloksia</div>
+        {%- if min_order > 0 -%}<div class="emr-trust-item">💰 Min. € {{ min_order }}</div>{%- endif -%}
+      </div>
+    </div>
+    <div class="emr-auth-card">
+      <div class="emr-auth-card-pad">
+        <h2>Luo tilisi tai kirjaudu</h2>
+        <p class="sub">Saat oman suosittelulinkkisi heti, kun kirjaudut sisään.</p>
+        <a class="emr-auth-btn" href="{{ routes.account_register_url }}?return_url=/pages/referral-program?welcome=1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Luo tili ilmaiseksi
+        </a>
+        <a class="emr-auth-btn emr-auth-btn--ghost" href="{{ routes.account_login_url }}?return_url=/pages/referral-program">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+          Kirjaudu sisään
+        </a>
+      </div>
+    </div>
+  </div>
+
+{%- elsif view == 'welcome' -%}
+  <div class="emr-welcome">
+    <div class="emr-welcome-ico">🎉</div>
+    <h1>Valmista, {{ customer.first_name | default: customer.name }}!</h1>
+    <p class="lede">Jaa linkkisi ja ala tienaamaan palkintoja.</p>
+    <div class="emr-link-card" style="text-align:left;">
+      <div class="emr-link-eye">Sinun linkkisi</div>
+      <div class="emr-link-row">
+        <input type="text" class="emr-link-input" id="emrWLink" readonly value="{{ ref_link }}" onclick="this.select()">
+        <button class="emr-link-btn" onclick="navigator.clipboard.writeText(document.getElementById('emrWLink').value);this.textContent='✓ Kopioitu';setTimeout(()=>this.textContent='Kopioi',2000)">Kopioi</button>
+      </div>
+      <div class="emr-meta">Koodi: <strong>{{ ref_code }}</strong> · Kuponki: <strong class="coupon">{{ coupon_code }}</strong></div>
+    </div>
+    <div class="emr-share-row">
+      <a class="emr-share-btn" href="https://wa.me/?text={{ share_msg | url_encode }}" target="_blank">📱 WhatsApp</a>
+      <a class="emr-share-btn" href="mailto:?subject={{ 'Saat ' | append: referee_discount | append: '% alennuksen' | url_encode }}&body={{ share_msg | url_encode }}">✉️ Sähköposti</a>
+      <button class="emr-share-btn" onclick="if(navigator.share){navigator.share({title:{{ shop.name | json }},text:{{ share_msg | json }},url:{{ ref_link | json }}})}else{navigator.clipboard.writeText({{ ref_link | json }})}">🔗 Jaa</button>
+    </div>
+    <div class="emr-welcome-how">
+      <h2>Näin se toimii</h2>
+      <div class="emr-welcome-how-grid">
+        <div class="emr-card" style="margin:0;padding:14px;"><div style="font-size:24px;margin-bottom:6px;">📤</div><div style="font-size:13px;font-weight:700;margin-bottom:3px;">Jaa linkki</div><div style="font-size:11px;color:var(--mu);">Lähetä suosittelulinkki kenelle tahansa</div></div>
+        <div class="emr-card" style="margin:0;padding:14px;"><div style="font-size:24px;margin-bottom:6px;">🏷️</div><div style="font-size:13px;font-weight:700;margin-bottom:3px;">Kaveri saa {{ referee_discount }}%</div><div style="font-size:11px;color:var(--mu);">Alennus lasketaan automaattisesti</div></div>
+        <div class="emr-card" style="margin:0;padding:14px;"><div style="font-size:24px;margin-bottom:6px;">🎁</div><div style="font-size:13px;font-weight:700;margin-bottom:3px;">Sinä tienaat {{ referrer_discount }}%</div><div style="font-size:11px;color:var(--mu);">Kuponki lähetetään sähköpostitse</div></div>
+        <div class="emr-card" style="margin:0;padding:14px;"><div style="font-size:24px;margin-bottom:6px;">📊</div><div style="font-size:13px;font-weight:700;margin-bottom:3px;">Seuraa kaikkea</div><div style="font-size:11px;color:var(--mu);">Näe kaikki tiedot paneelissasi</div></div>
+      </div>
+    </div>
+    <a class="emr-auth-btn" href="/pages/referral-program" style="display:inline-flex;width:auto;padding:14px 28px;">Siirry paneeliin →</a>
+  </div>
+
+{%- else -%}
+  {%- comment -%} Dashboard (logged in, no welcome param) {%- endcomment -%}
+  {%- assign completed_count = customer.metafields.referral.completed_count | default: 0 -%}
+  {%- assign pending_count = customer.metafields.referral.pending_count | default: 0 -%}
+  {%- assign reward_count = customer.metafields.referral.reward_count | default: 0 -%}
+  <div class="emr-portal">
+    <div class="emr-portal-hdr">
+      <div>
+        <div class="emr-portal-hdr-sub">Tervetuloa takaisin</div>
+        <div class="emr-portal-hdr-name">{{ customer.first_name | default: customer.name }}</div>
+      </div>
+      <a href="{{ routes.account_logout_url }}" style="font-size:13px;color:var(--mu);text-decoration:none;padding:6px 14px;border:1px solid var(--bdr);border-radius:8px;">Kirjaudu ulos</a>
+    </div>
+    <div class="emr-link-card">
+      <div class="emr-link-eye">Sinun linkkisi</div>
+      <div class="emr-link-h">Annat kaverille {{ referee_discount }}%, saat {{ referrer_discount }}%</div>
+      <div class="emr-link-d">Jaa → kaverit säästävät → ansaitset palkintoja</div>
+      <div class="emr-link-row">
+        <input type="text" class="emr-link-input" id="emrDLink" readonly value="{{ ref_link }}" onclick="this.select()">
+        <button class="emr-link-btn" onclick="navigator.clipboard.writeText(document.getElementById('emrDLink').value);this.textContent='✓ Kopioitu';setTimeout(()=>this.textContent='Kopioi',2000)">Kopioi</button>
+      </div>
+      <div class="emr-share-row">
+        <a class="emr-share-btn" href="https://wa.me/?text={{ share_msg | url_encode }}" target="_blank">WhatsApp</a>
+        <a class="emr-share-btn" href="mailto:?subject={{ 'Saat ' | append: referee_discount | append: '% alennuksen' | url_encode }}&body={{ share_msg | url_encode }}">Sähköposti</a>
+        <button class="emr-share-btn" onclick="if(navigator.share){navigator.share({url:{{ ref_link | json }}})}else{navigator.clipboard.writeText({{ ref_link | json }})}">Jaa</button>
+      </div>
+      <div class="emr-meta">Koodi: <strong>{{ ref_code }}</strong> · Kuponki: <strong class="coupon">{{ coupon_code }}</strong></div>
+    </div>
+    <div class="emr-stats">
+      <div class="emr-stat"><div class="emr-stat-n">{{ completed_count }}</div><div class="emr-stat-l">Onnistunutta</div></div>
+      <div class="emr-stat"><div class="emr-stat-n">{{ pending_count }}</div><div class="emr-stat-l">Odottaa</div></div>
+      <div class="emr-stat"><div class="emr-stat-n">{{ reward_count }}</div><div class="emr-stat-l">Palkinnot</div></div>
+    </div>
+    <div class="emr-card">
+      <h3>📊 Historiasi</h3>
+      <div class="emr-empty">
+        <div class="emr-empty-ico">📭</div>
+        <p>Ei vielä suosituksia kavereillesi. Jaa linkkisi heille!</p>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Referral portal",
+  "settings": [
+    { "type": "range", "id": "referee_discount", "label": "Discount for friend (%)", "min": 5, "max": 50, "step": 5, "default": 20 },
+    { "type": "range", "id": "referrer_discount", "label": "Reward for referrer (%)", "min": 5, "max": 50, "step": 5, "default": 20 },
+    { "type": "number", "id": "min_order", "label": "Minimum friend order (€) — 0 = no min", "default": 50 }
+  ],
+  "presets": [{ "name": "Referral portal" }]
+}
+{% endschema %}

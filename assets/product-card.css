@@ -5,6 +5,14 @@
 .pk-img img{width:100%;height:100%;object-fit:contain;padding:10px;transition:transform .3s;mix-blend-mode:multiply;}
 .pk-card:hover .pk-img img{transform:scale(1.04);}
 .pk-sale{position:absolute;top:8px;left:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;font-size:9px;font-weight:800;padding:3px 9px;border-radius:14px;z-index:2;}
+
+/* Referral overlay — appears only when has-referral class is on <html> (set by theme.js) */
+html.has-referral .pk-card::before{
+  content:'-20% REFERRAL';position:absolute;top:8px;right:8px;z-index:3;
+  background:linear-gradient(135deg,#00b4d8,#00e5ff);color:#0a1628;
+  padding:4px 9px;border-radius:6px;font-size:9px;font-weight:800;
+  box-shadow:0 2px 8px rgba(0,180,216,.35);letter-spacing:.4px;
+}
 .pk-body{padding:12px 12px 14px;display:flex;flex-direction:column;flex:1;gap:0;}
 .pk-name{font-size:13px;font-weight:800;color:#caf0f8;line-height:1.25;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-decoration:none !important;}
 .pk-name:hover{color:#00e5ff;}

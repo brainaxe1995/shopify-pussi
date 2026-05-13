@@ -1,6 +1,53 @@
-/* Theme JS — small utilities (mobile menu, AJAX add-to-cart, product card tier pills) */
+/* Theme JS — utilities + referral attribution (port of em-referral-program client side). */
 (function () {
   'use strict';
+
+  // ── Referral attribution ──
+  // Captures ?ref=CODE from URL, stores in localStorage 30 days, applies at checkout.
+  var REF_KEY = 'pk_ref_code';
+  var REF_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+  function getStoredRef() {
+    try {
+      var raw = localStorage.getItem(REF_KEY);
+      if (!raw) return null;
+      var d = JSON.parse(raw);
+      if (!d || !d.code || !d.ts || (Date.now() - d.ts) > REF_TTL_MS) {
+        localStorage.removeItem(REF_KEY); return null;
+      }
+      return d.code;
+    } catch (e) { return null; }
+  }
+  function setStoredRef(code) {
+    try { localStorage.setItem(REF_KEY, JSON.stringify({ code: code, ts: Date.now() })); } catch (e) {}
+  }
+  (function captureRef() {
+    var m = location.search.match(/[?&]ref=([0-9a-zA-Z_-]{2,40})/);
+    if (m) {
+      setStoredRef(m[1]);
+      // Persist on cart as attribute so admin can see who referred for each order.
+      fetch('/cart/update.js', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attributes: { referral_code: m[1] } })
+      }).catch(function(){});
+    }
+  })();
+  // Mark body so CSS can show "−20%" badges, banner etc.
+  if (getStoredRef()) document.documentElement.classList.add('has-referral');
+
+  // Inject referral discount on checkout click. Shopify auto-applies discount via /discount/CODE URL.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href*="/checkout"], a.emsc-checkout-btn, .vsp-checkout-btn');
+    if (!a) return;
+    var code = getStoredRef();
+    if (!code) return;
+    var coupon = 'WELCOME-' + code;
+    var href = a.getAttribute('href') || '/checkout';
+    if (href.indexOf('discount=') === -1) {
+      a.setAttribute('href', '/discount/' + coupon + '?redirect=' + encodeURIComponent(href));
+    }
+  });
 
   // Product card tier pill — updates per-card total without reload.
   window.pkTier = function (el, e) {
