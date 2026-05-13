@@ -113,7 +113,7 @@
       const href = this.getAttribute('href'); if (!href) return;
       e.preventDefault();
       this.style.opacity = .7; this.style.pointerEvents = 'none';
-      this.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:emscSpin .8s linear infinite;display:inline-block"></span> Going to checkout…</span>';
+      this.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:emscSpin .8s linear infinite;display:inline-block"></span> Siirrytään kassalle…</span>';
       setTimeout(function () { window.location.href = href; }, 400);
     });
 
