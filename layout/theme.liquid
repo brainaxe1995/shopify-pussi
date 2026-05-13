@@ -26,6 +26,12 @@
   {{ 'product-card.css' | asset_url | stylesheet_tag }}
   {{ 'badges.css' | asset_url | stylesheet_tag }}
   {{ 'side-cart.css' | asset_url | stylesheet_tag }}
+  <style>
+    /* Hard override of body top padding (Shopify sometimes lags on theme.css updates).
+       Header height = announce bar (~30) + nav row (~80) = ~110-120; 150 buffers. */
+    body{padding-top:150px !important;}
+    @media(max-width:900px){body{padding-top:80px !important;}}
+  </style>
 
   <script>
     window.PK = {
