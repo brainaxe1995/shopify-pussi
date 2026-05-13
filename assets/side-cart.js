@@ -241,9 +241,32 @@
     });
     items.innerHTML = html;
 
-    subtotalEl.innerHTML = money(cartData.total_price);
+    if (subtotalEl) subtotalEl.innerHTML = money(cartData.total_price);
     updateShippingBar(cartData.total_price / 100);
+    renderCalc(cartData);
     bindItemEvents();
+  }
+
+  function renderCalc(d) {
+    // d in cents (Shopify cart.js values)
+    var subtotal = d.items_subtotal_price != null ? d.items_subtotal_price : d.original_total_price;
+    var discount = d.total_discount || 0;
+    var afterDisc = d.total_price; // Shopify total_price already includes line + cart discounts
+    // Shipping estimate: free over threshold, otherwise flat 6.20€
+    var FREE = (FREE_SHIP || 100) * 100;
+    var FLAT_SHIP = 620;
+    var ship = (d.item_count === 0) ? 0 : (afterDisc >= FREE ? 0 : FLAT_SHIP);
+    var total = afterDisc + ship;
+
+    var $sub = $('#emscCalcSubtotal'); if ($sub) $sub.innerHTML = money(subtotal);
+    var $dRow = $('#emscCalcDiscRow'), $d = $('#emscCalcDisc');
+    if ($dRow && $d) {
+      if (discount > 0) { $dRow.style.display = ''; $d.innerHTML = '-' + money(discount); }
+      else { $dRow.style.display = 'none'; }
+    }
+    var $ship = $('#emscCalcShip');
+    if ($ship) $ship.innerHTML = (ship === 0 && d.item_count > 0) ? 'Ilmainen' : (d.item_count === 0 ? '—' : money(ship));
+    var $tot = $('#emscCalcTotal'); if ($tot) $tot.innerHTML = money(total);
   }
 
   function bindItemEvents() {

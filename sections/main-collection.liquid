@@ -1,30 +1,138 @@
-<div class="pk-collection-head">
-  <h1>{{ collection.title }}</h1>
-  {%- if collection.description != blank -%}<p>{{ collection.description }}</p>{%- endif -%}
+{%- comment -%} Port of WP archive-product.php + taxonomy-product_cat.php — compact toolbar, hero, fixed-width grid. {%- endcomment -%}
+
+<style>
+.pc-wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
+@media(max-width:768px){.pc-wrap{padding:0 14px;}}
+
+.pc-bc{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:10px 0;}
+.pc-bc-in{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);flex-wrap:wrap;}
+.pc-bc-in a{color:var(--v);text-decoration:none;}.pc-bc-in a:hover{color:var(--f);}
+.pc-bc-in i{font-size:9px;}
+
+.pc-hero{position:relative;overflow:hidden;background:var(--bg-deep);padding:32px 0 26px;isolation:isolate;}
+.pc-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.1) 0%,transparent 60%);pointer-events:none;}
+.pc-hero-in{position:relative;z-index:1;}
+.pc-capsule{display:inline-flex;align-items:center;gap:9px;background:rgba(0,180,216,.1);border:1.5px solid rgba(0,180,216,.28);border-radius:60px;padding:6px 18px;margin-bottom:12px;}
+.pc-capsule-dot{width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;}
+.pc-capsule span{font-size:11px;font-weight:800;color:var(--f);text-transform:uppercase;letter-spacing:1.1px;}
+.pc-hero h1{font-family:var(--ff);font-size:30px;font-weight:900;color:#fff;letter-spacing:-.6px;margin-bottom:6px;}
+@media(max-width:768px){.pc-hero h1{font-size:22px;}}
+.pc-hero p{font-size:13px;color:rgba(202,240,248,.58);line-height:1.55;max-width:520px;}
+
+.pc-bar{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:10px 0;position:sticky;top:80px;z-index:90;}
+@media(max-width:900px){.pc-bar{top:64px;}}
+.pc-bar-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.pc-count{font-size:13px;color:var(--mu);}.pc-count strong{color:var(--v);}
+.pc-sort select{background:var(--w);border:1.5px solid var(--bdr);color:var(--txt);border-radius:8px;padding:8px 30px 8px 12px;font-size:13px;font-family:inherit;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2390e0ef' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;background-size:14px;}
+.pc-sort select:focus{border-color:var(--v);}
+
+.pc-main{padding:28px 0 48px;}
+.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+@media(max-width:1200px){.pc-grid{grid-template-columns:repeat(3,1fr);gap:14px;}}
+@media(max-width:900px){.pc-grid{grid-template-columns:repeat(2,1fr);gap:12px;}}
+@media(max-width:480px){.pc-grid{gap:10px;}}
+
+.pc-pagination{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:32px;}
+.pc-pagination a,.pc-pagination span{display:block;padding:8px 14px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-weight:600;color:var(--mid);text-decoration:none;background:var(--w);transition:.15s;}
+.pc-pagination a:hover{border-color:var(--v);color:var(--f);}
+.pc-pagination span[aria-current]{background:var(--g);color:#0a0800;border-color:transparent;}
+
+.pc-empty{text-align:center;padding:64px 20px;background:var(--w);border:1.5px solid var(--bdr);border-radius:14px;}
+.pc-empty i{font-size:48px;color:var(--bdr);margin-bottom:16px;display:block;}
+.pc-empty h3{font-size:20px;font-weight:700;color:var(--txt);margin-bottom:8px;}
+.pc-empty p{font-size:14px;color:var(--mu);}
+.pc-empty a{display:inline-flex;align-items:center;gap:7px;background:var(--g);color:#0a1628;font-weight:700;padding:11px 22px;border-radius:8px;text-decoration:none;margin-top:18px;}
+</style>
+
+<div class="pc-bc">
+  <div class="pc-wrap">
+    <div class="pc-bc-in">
+      <a href="{{ routes.root_url }}">Etusivu</a>
+      <i class="fas fa-chevron-right"></i>
+      <a href="{{ routes.all_products_collection_url }}">Kauppa</a>
+      {%- if collection.handle != 'all' -%}
+        <i class="fas fa-chevron-right"></i>
+        <span>{{ collection.title }}</span>
+      {%- endif -%}
+    </div>
+  </div>
 </div>
 
-<section class="pk-section">
-  <div class="pk-grid pk-grid-4">
-    {%- paginate collection.products by section.settings.per_page -%}
-      {%- for product in collection.products -%}
-        {%- render 'product-card', product: product -%}
+<div class="pc-hero">
+  <div class="pc-wrap">
+    <div class="pc-hero-in">
+      <div class="pc-capsule">
+        <span class="pc-capsule-dot"></span>
+        <span>{% if collection.handle == 'all' %}Kauppa{% else %}Kategoria{% endif %}</span>
+      </div>
+      <h1>{{ collection.title | default: 'Kaikki tuotteet' }}</h1>
+      {%- if collection.description != blank -%}
+        <p>{{ collection.description }}</p>
       {%- else -%}
-        <p>Ei tuotteita.</p>
-      {%- endfor -%}
+        <p>Premium-nikotiinipussit suoraan Ruotsista. Oden's, White Fox, VELO ja GREATEST.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- paginate collection.products by section.settings.per_page -%}
+
+<div class="pc-bar">
+  <div class="pc-wrap">
+    <div class="pc-bar-in">
+      <span class="pc-count">
+        {%- if paginate.pages > 1 -%}
+          Näytetään <strong>{{ paginate.current_offset | plus: 1 }}–{% if paginate.current_offset | plus: paginate.page_size < paginate.items %}{{ paginate.current_offset | plus: paginate.page_size }}{% else %}{{ paginate.items }}{% endif %}</strong> / {{ paginate.items }}
+        {%- else -%}
+          <strong>{{ collection.products_count }}</strong> tuotetta
+        {%- endif -%}
+      </span>
+      <form method="get" class="pc-sort">
+        <select name="sort_by" onchange="this.form.submit()">
+          <option value="manual"{% if collection.sort_by == "manual" %} selected{% endif %}>Suositellut</option>
+          <option value="best-selling"{% if collection.sort_by == "best-selling" %} selected{% endif %}>Myydyimmät</option>
+          <option value="price-ascending"{% if collection.sort_by == "price-ascending" %} selected{% endif %}>Hinta: alhaisin → korkein</option>
+          <option value="price-descending"{% if collection.sort_by == "price-descending" %} selected{% endif %}>Hinta: korkein → alhaisin</option>
+          <option value="title-ascending"{% if collection.sort_by == "title-ascending" %} selected{% endif %}>Nimi: A → Z</option>
+          <option value="title-descending"{% if collection.sort_by == "title-descending" %} selected{% endif %}>Nimi: Z → A</option>
+          <option value="created-descending"{% if collection.sort_by == "created-descending" %} selected{% endif %}>Uusin</option>
+        </select>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="pc-main">
+  <div class="pc-wrap">
+    {%- if collection.products.size > 0 -%}
+      <div class="pc-grid">
+        {%- for product in collection.products -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
 
       {%- if paginate.pages > 1 -%}
-        <div class="pk-pagination" style="grid-column:1/-1;">
+        <div class="pc-pagination">
           {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&laquo;</a>{%- endif -%}
           {%- for part in paginate.parts -%}
             {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>
-            {%- else -%}<span {% if part.title == paginate.current_page %}aria-current="page"{% endif %}>{{ part.title }}</span>{%- endif -%}
+            {%- else -%}<span{% if part.title == paginate.current_page %} aria-current="page"{% endif %}>{{ part.title }}</span>{%- endif -%}
           {%- endfor -%}
           {%- if paginate.next -%}<a href="{{ paginate.next.url }}">&raquo;</a>{%- endif -%}
         </div>
       {%- endif -%}
-    {%- endpaginate -%}
+    {%- else -%}
+      <div class="pc-empty">
+        <i class="fas fa-box-open"></i>
+        <h3>Ei tuotteita tässä kategoriassa</h3>
+        <p>Kokeile selata muita kategorioita tai koko valikoimaamme.</p>
+        <a href="{{ routes.all_products_collection_url }}"><i class="fas fa-shopping-bag"></i> Kaikki tuotteet</a>
+      </div>
+    {%- endif -%}
   </div>
-</section>
+</div>
+
+{%- endpaginate -%}
 
 {% schema %}
 {

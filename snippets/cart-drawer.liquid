@@ -65,14 +65,28 @@
   </div>
 
   <div class="emsc-footer" id="emscFooter" style="display:none">
-    <div class="emsc-subtotal-row">
-      <span>{{ 'cart.subtotal' | t | default: 'Välisumma' }}</span>
-      <span class="emsc-subtotal-amount" id="emscSubtotal">{{ cart.total_price | money }}</span>
+    <div class="emsc-calc">
+      <div class="emsc-calc-row">
+        <span>Välisumma</span>
+        <span id="emscCalcSubtotal">{{ cart.items_subtotal_price | money }}</span>
+      </div>
+      <div class="emsc-calc-row emsc-calc-disc" id="emscCalcDiscRow" style="display:none">
+        <span><i class="fas fa-tag"></i> <span id="emscCalcDiscLabel">Tukku-alennus</span></span>
+        <span class="emsc-calc-disc-val" id="emscCalcDisc"></span>
+      </div>
+      <div class="emsc-calc-row">
+        <span>Toimitus</span>
+        <span id="emscCalcShip">—</span>
+      </div>
+      <div class="emsc-calc-row emsc-calc-total">
+        <span>Yhteensä</span>
+        <span id="emscCalcTotal">{{ cart.total_price | money }}</span>
+      </div>
     </div>
     <a href="{{ routes.cart_url }}/checkout" class="emsc-checkout-btn" id="emscCheckoutBtn">
-      {{ 'cart.checkout' | t | default: 'Siirry kassalle' }}
+      Siirry kassalle
     </a>
-    <a href="{{ routes.cart_url }}" class="emsc-viewcart-link">{{ 'cart.view' | t | default: 'Katso ostoskori' }}</a>
+    <a href="{{ routes.cart_url }}" class="emsc-viewcart-link">Katso ostoskori</a>
   </div>
 </div>
 

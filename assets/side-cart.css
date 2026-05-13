@@ -668,6 +668,18 @@
     flex-shrink: 0;
 }
 
+/* Compact itemized cart calculation */
+.emsc-calc{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;font-size:13px;color:#caf0f8;}
+.emsc-calc-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;}
+.emsc-calc-row > span:first-child{color:#90e0ef;font-weight:600;}
+.emsc-calc-row > span:last-child{font-weight:700;color:#caf0f8;}
+.emsc-calc-disc > span:first-child{color:#10b981;}
+.emsc-calc-disc > span:first-child i{font-size:10px;margin-right:3px;}
+.emsc-calc-disc-val{color:#10b981 !important;}
+.emsc-calc-total{padding-top:8px;margin-top:4px;border-top:1px dashed #1e3a5f;font-size:15px;}
+.emsc-calc-total > span:first-child{font-family:'Outfit',sans-serif;font-weight:800;color:#fff !important;}
+.emsc-calc-total > span:last-child{font-family:'Outfit',sans-serif;font-weight:900;color:#00e5ff !important;font-size:16px;}
+
 .emsc-subtotal-row {
     display: flex;
     justify-content: space-between;
