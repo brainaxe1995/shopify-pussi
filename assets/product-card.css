@@ -1,0 +1,43 @@
+/* ═══ PRODUCT CARD — Pussikauppa exact ═══ */
+.product-card{position:relative;background:rgba(1,13,26,.4);border:1px solid rgba(0,229,255,.1);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);transition:.25s;box-shadow:0 4px 24px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.03);}
+.product-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.3),0 0 40px rgba(0,229,255,.06);}
+
+.product-card .media{position:relative;background:#0a1e36;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:14px;}
+.product-card .media img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4));}
+
+.product-card .badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:5px;z-index:2;}
+.product-card .badges .promo-badge{display:inline-block;}
+
+.product-card .discount-flag{position:absolute;top:10px;right:10px;background:#ef4444;color:#fff;font-size:11px;font-weight:800;padding:4px 8px;border-radius:4px;z-index:2;}
+
+.product-card .info{padding:14px;display:flex;flex-direction:column;gap:4px;flex:1;}
+.product-card .name{font-family:var(--ff);font-size:14px;font-weight:800;color:#fff;line-height:1.25;text-decoration:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px;}
+.product-card .name:hover{color:var(--ice);}
+
+.product-card .alk-row{display:flex;align-items:baseline;gap:6px;}
+.product-card .alk-label{font-size:11px;color:var(--mu);font-weight:600;}
+.product-card .alk-price{font-family:var(--ff);font-size:17px;font-weight:900;color:var(--ice);}
+
+.product-card .variant-meta{font-size:11.5px;color:var(--dim);font-weight:500;}
+
+.product-card .tier-row{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;}
+.product-card .tier-label{font-family:var(--ff);font-weight:800;color:var(--frost);}
+.product-card .tier-price{color:var(--txt);font-weight:700;}
+.product-card .tier-disc{font-family:var(--ff);background:rgba(220,38,38,.15);color:#ef4444;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:800;}
+.product-card .tier-total{font-size:11px;color:var(--mu);}
+.product-card .tier-total strong{color:#fff;font-weight:800;}
+
+.product-card .add-btn{margin-top:auto;width:100%;padding:10px;background:var(--g-aurora);color:#0a1628;border:none;border-radius:8px;font-family:var(--ff);font-weight:800;font-size:13px;letter-spacing:.4px;cursor:pointer;transition:.15s;}
+.product-card .add-btn:hover{filter:brightness(1.06);box-shadow:0 4px 14px rgba(0,180,216,.4);}
+.product-card .add-btn:disabled{opacity:.5;cursor:not-allowed;}
+.product-card .add-btn.adding{pointer-events:none;}
+.product-card .add-btn.added{background:linear-gradient(135deg,#059669,#10b981);}
+
+@media (max-width:520px){
+  .product-card .info{padding:10px;gap:3px;}
+  .product-card .name{font-size:12.5px;min-height:32px;}
+  .product-card .alk-price{font-size:14px;}
+  .product-card .tier-row{font-size:11px;}
+  .product-card .tier-total{font-size:10px;}
+  .product-card .add-btn{font-size:11px;padding:9px;}
+}

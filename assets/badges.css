@@ -1,0 +1,39 @@
+/* ============================================
+   PRODUCT CARD BADGES — port of "Badge Color Styling" snippet
+   ============================================ */
+.promo-badge{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;color:#fff!important;display:inline-block;line-height:1.2;}
+
+.product-card .badges [data-badge="top-seller"],
+.product-card .badges [style*="background-color: #10b981"]{background-color:#10b981!important;}
+.product-card .badges [data-badge="new"],
+.product-card .badges [style*="background-color: #3b82f6"]{background-color:#3b82f6!important;}
+.product-card .badges [data-badge="trending"],
+.product-card .badges [style*="background-color: #f59e0b"]{background-color:#f59e0b!important;}
+.product-card .badges [data-badge="better-price"],
+.product-card .badges [style*="background-color: #8b5cf6"]{background-color:#8b5cf6!important;}
+.product-card .badges [data-badge="favourite"],
+.product-card .badges [style*="background-color: #ec4899"]{background-color:#ec4899!important;}
+.product-card .badges [data-badge="flash-sale"],
+.product-card .badges [style*="background-color: #ef4444"]{background-color:#ef4444!important;}
+.product-card .badges [data-badge="hot-deal"],
+.product-card .badges [style*="background-color: #dc2626"]{background-color:#dc2626!important;}
+
+/* ============================================
+   BUNDLE BADGES (single product)
+   ============================================ */
+.bundle-badge{transition:all .2s ease;color:#fff;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;}
+.bundle-badge.maximum-savings{background:#059669!important;box-shadow:0 2px 4px rgba(5,150,105,.3);}
+.bundle-badge.superior-value{background:#00b4d8!important;box-shadow:0 2px 4px rgba(0,180,216,.3);}
+.bundle-badge.mega-deal{background:#ea580c!important;box-shadow:0 2px 4px rgba(234,88,12,.3);}
+.bundle-badge.ultimate-trio{background:#dc2626!important;box-shadow:0 2px 4px rgba(220,38,38,.3);}
+.bundle-badge.double-and-save{background:#00b4d8!important;box-shadow:0 2px 4px rgba(25,57,121,.3);}
+.bundle-badge.standard{background:#6b7280!important;box-shadow:0 2px 4px rgba(107,114,128,.3);}
+.bundle-badge.limited-offer{background:#f97316!important;box-shadow:0 2px 4px rgba(249,115,22,.3);}
+.bundle-badge.best-seller{background:#0891b2!important;box-shadow:0 2px 4px rgba(8,145,178,.3);}
+.bundle-option-item:hover .bundle-badge{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2);}
+.bundle-option-item:focus{outline:2px solid #00b4d8;outline-offset:2px;}
+
+@media (max-width:768px){
+  .promo-badge{font-size:10px;padding:3px 8px;}
+  .bundle-badge{font-size:8px;padding:2px 6px;}
+}

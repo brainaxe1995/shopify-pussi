@@ -1,0 +1,31 @@
+<style>
+.pk-age{padding:16px 0;border-top:1px solid rgba(0,229,255,.06);}
+.pk-age-in{display:flex;align-items:center;gap:14px;justify-content:center;}
+.pk-age-badge{font-family:var(--ff);font-size:18px;font-weight:900;color:var(--ice);background:rgba(0,229,255,.08);border:2px solid rgba(0,229,255,.15);border-radius:10px;padding:4px 12px;}
+.pk-age-txt h4{font-family:var(--ff);font-size:13px;font-weight:700;color:var(--frost);}
+.pk-age-txt p{font-size:11px;color:var(--dim);line-height:1.4;}
+</style>
+
+<div class="pk-age">
+  <div class="pk-wrap">
+    <div class="pk-age-in pk-reveal">
+      <div class="pk-age-badge">{{ section.settings.badge | default: '18+' }}</div>
+      <div class="pk-age-txt">
+        <h4>{{ section.settings.title | default: 'Vain täysi-ikäisille' }}</h4>
+        <p>{{ section.settings.text | default: 'Tuotteet sisältävät nikotiinia. Ei sovi alaikäisille tai raskaana oleville.' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Age bar",
+  "settings": [
+    { "type": "text",     "id": "badge", "label": "Badge", "default": "18+" },
+    { "type": "text",     "id": "title", "label": "Title", "default": "Vain täysi-ikäisille" },
+    { "type": "textarea", "id": "text",  "label": "Text",  "default": "Tuotteet sisältävät nikotiinia. Ei sovi alaikäisille tai raskaana oleville." }
+  ],
+  "presets": [{ "name": "Age bar" }]
+}
+{% endschema %}

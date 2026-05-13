@@ -1,0 +1,21 @@
+<section class="pk-section">
+  <h1 style="font-size:28px;font-weight:900;color:var(--pk-text);margin:0 0 24px;">Kategoriat</h1>
+  <div class="pk-grid pk-grid-3">
+    {%- for col in collections -%}
+      <a href="{{ col.url }}" class="product-card" style="text-decoration:none;color:var(--pk-text);">
+        <div class="media">
+          {%- if col.image -%}
+            <img src="{{ col.image | image_url: width: 600 }}" alt="{{ col.title | escape }}">
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+        <div class="info">
+          <span class="name">{{ col.title }}</span>
+          <span class="pk-text-muted" style="font-size:12px;">{{ col.products_count }} tuotetta</span>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}{ "name": "Collections list", "settings": [] }{% endschema %}

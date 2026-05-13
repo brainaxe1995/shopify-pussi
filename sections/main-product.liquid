@@ -1,0 +1,236 @@
+<style>
+/* ═══ PRODUCT PAGE — Pussikauppa exact ═══ */
+.vps{max-width:1200px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:1fr 1.1fr;gap:40px;}
+@media(max-width:900px){.vps{grid-template-columns:1fr;gap:20px;padding:16px 14px 40px;}}
+.vps-media{position:sticky;top:100px;align-self:start;}
+@media(max-width:900px){.vps-media{position:static;}}
+.vps-media-img{background:var(--bg2);border:1.5px solid var(--bdr);border-radius:18px;overflow:hidden;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:30px;}
+.vps-media-img img{max-width:90%;max-height:90%;object-fit:contain;filter:drop-shadow(0 12px 30px rgba(0,0,0,.4));}
+.vps-info{display:flex;flex-direction:column;gap:14px;}
+.vps-brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.vps-brand{font-family:var(--ff);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--v);}
+.vps-price-tag{font-family:var(--ff);font-size:13px;color:var(--mu);font-weight:600;}
+.vps-price-tag strong{color:var(--ice);font-size:18px;font-weight:900;}
+.vps-title{font-family:var(--ff);font-size:30px;font-weight:900;color:#fff;letter-spacing:-.6px;line-height:1.12;margin:2px 0;}
+@media(max-width:768px){.vps-title{font-size:24px;}}
+.vps-specs{display:flex;flex-wrap:wrap;gap:6px;}
+.vps-chip{font-family:var(--ff);font-size:11px;font-weight:700;color:var(--frost);background:rgba(0,229,255,.06);border:1px solid var(--bdr);padding:5px 10px;border-radius:6px;}
+.vps-chip.strong{color:#fff;background:var(--g);border-color:transparent;}
+
+.vps-qty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;}
+@media(max-width:480px){.vps-qty-grid{grid-template-columns:repeat(3,1fr);gap:6px;}}
+.vps-qty-opt{position:relative;cursor:pointer;}
+.vps-qty-opt input{position:absolute;opacity:0;pointer-events:none;}
+.vps-qty-card{background:var(--w);border:1.5px solid var(--bdr);border-radius:10px;padding:10px 8px;text-align:center;transition:.15s;}
+.vps-qty-opt:hover .vps-qty-card{border-color:var(--v);}
+.vps-qty-opt input:checked + .vps-qty-card{border-color:var(--ice);background:rgba(0,229,255,.06);box-shadow:0 0 0 2px rgba(0,229,255,.18);}
+.vps-qty-n{font-family:var(--ff);font-size:14px;font-weight:800;color:var(--txt);line-height:1;}
+.vps-qty-l{font-size:10px;color:var(--mu);margin-top:2px;}
+.vps-qty-disc{display:block;margin-top:4px;font-size:9.5px;font-weight:700;color:var(--v);}
+
+.vps-total-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1.5px solid var(--bdr);border-radius:10px;padding:10px 14px;}
+.vps-total-bar .l{font-family:var(--ff);font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;}
+.vps-total-bar .v{font-family:var(--ff);font-size:18px;font-weight:900;color:var(--ice);}
+
+.vps-cta{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 20px;background:var(--g);color:#0a1628;border:none;border-radius:12px;font-family:var(--ff);font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.3px;box-shadow:0 6px 24px rgba(0,180,216,.3);transition:.2s;}
+.vps-cta:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(0,229,255,.4);}
+.vps-cta:disabled{opacity:.5;cursor:not-allowed;}
+.vps-ship-note{font-size:12px;color:var(--mu);text-align:center;}
+
+.vps-strip{display:flex;justify-content:space-around;gap:8px;flex-wrap:wrap;background:var(--bg2);border:1.5px solid var(--bdr);border-radius:10px;padding:10px;}
+.vps-strip-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--frost);font-weight:600;}
+.vps-strip-item i{color:var(--ice);font-size:11px;}
+
+.vps-usps{display:flex;flex-direction:column;gap:6px;}
+.vps-usps > div{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt);}
+.vps-usps svg{flex-shrink:0;}
+
+.vps-tabs{margin-top:20px;border:1.5px solid var(--bdr);border-radius:12px;background:var(--w);overflow:hidden;}
+.vps-tab-heads{display:flex;border-bottom:1.5px solid var(--bdr);}
+.vps-tab-head{flex:1;padding:14px 12px;text-align:center;cursor:pointer;font-family:var(--ff);font-size:13px;font-weight:700;color:var(--mu);transition:.15s;border-right:1.5px solid var(--bdr);}
+.vps-tab-head:last-child{border-right:none;}
+.vps-tab-head.active{color:var(--ice);background:rgba(0,229,255,.04);}
+.vps-tab-body{padding:20px;font-size:14px;line-height:1.7;color:var(--mid);}
+.vps-tab-body ul{list-style:none;padding:0;margin:10px 0;display:flex;flex-direction:column;gap:6px;}
+.vps-tab-body ul li{padding-left:18px;position:relative;}
+.vps-tab-body ul li::before{content:'•';position:absolute;left:6px;color:var(--ice);}
+.vps-tab-body table{width:100%;border-collapse:collapse;font-size:13px;}
+.vps-tab-body table td{padding:8px 10px;border-bottom:1px solid var(--bdr);}
+.vps-tab-body table tr td:first-child{font-weight:700;color:var(--frost);width:40%;}
+
+.vps-related{max-width:1280px;margin:0 auto;padding:30px 20px 60px;}
+.vps-related h2{font-family:var(--ff);font-size:22px;font-weight:900;color:var(--txt);margin:0 0 18px;}
+</style>
+
+{%- assign sv = product.selected_or_first_available_variant -%}
+{%- assign brand = product.vendor | default: product.metafields.custom.brand -%}
+
+<section class="vps">
+  <div class="vps-media">
+    <div class="vps-media-img">
+      {%- if product.featured_image -%}
+        <img src="{{ product.featured_image | image_url: width: 1000 }}" alt="{{ product.title | escape }}" id="vpsImg">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="vps-info">
+    <div class="vps-brand-row">
+      <span class="vps-brand">{{ brand }}</span>
+      <span class="vps-price-tag"><strong data-vps-price>{{ sv.price | money }}</strong> / purkki</span>
+    </div>
+    <h1 class="vps-title">{{ product.title }}</h1>
+
+    <div class="vps-specs">
+      {%- if product.metafields.custom.nicotine_strength != blank -%}<span class="vps-chip">{{ product.metafields.custom.nicotine_strength }}</span>{%- endif -%}
+      {%- if product.metafields.custom.pouch_size != blank -%}<span class="vps-chip">{{ product.metafields.custom.pouch_size }}</span>{%- endif -%}
+      {%- if product.metafields.custom.strength_level != blank -%}<span class="vps-chip strong">{{ product.metafields.custom.strength_level }}</span>{%- endif -%}
+      {%- if product.metafields.custom.pouches_per_can != blank -%}<span class="vps-chip">{{ product.metafields.custom.pouches_per_can }} pussia</span>{%- endif -%}
+    </div>
+
+    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="pkProductForm">
+      <input type="hidden" name="form_type" value="product">
+      <input type="hidden" name="id" value="{{ sv.id }}" id="pkVariantId">
+
+      {%- if product.variants.size > 1 -%}
+        <div class="vps-qty-grid" id="vpsBundle">
+          {%- for variant in product.variants -%}
+            {%- assign disc = 0 -%}
+            {%- if variant.compare_at_price > variant.price -%}
+              {%- assign disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price -%}
+            {%- endif -%}
+            <label class="vps-qty-opt">
+              <input type="radio" name="bundle" value="{{ variant.id }}" {% if variant == sv %}checked{% endif %} data-price="{{ variant.price }}">
+              <div class="vps-qty-card">
+                <span class="vps-qty-n">{{ variant.title }}</span>
+                <span class="vps-qty-l">{{ variant.price | money }}</span>
+                {%- if disc > 0 -%}<span class="vps-qty-disc">-{{ disc | round }}%</span>{%- endif -%}
+              </div>
+            </label>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="vps-total-bar" style="margin-top:14px;">
+        <span class="l">Yhteensä</span>
+        <span class="v" data-vps-total>{{ sv.price | money }}</span>
+      </div>
+
+      <button type="submit" class="vps-cta" style="margin-top:14px;" {% if sv.available == false %}disabled{% endif %}>
+        <i class="fas fa-cart-plus"></i> {% if sv.available %}Lisää ostoskoriin{% else %}Loppu varastosta{% endif %}
+      </button>
+    </form>
+
+    <p class="vps-ship-note">Ilmainen toimitus yli 100€ tilauksiin. Toimitus alle 100€ tilauksiin 6.20€</p>
+
+    <div class="vps-strip">
+      <span class="vps-strip-item"><i class="fas fa-truck-fast"></i> Ilmainen yli 100€</span>
+      <span class="vps-strip-item"><i class="fas fa-bolt"></i> 3–5 arkipäivää</span>
+      <span class="vps-strip-item"><i class="fas fa-shield-halved"></i> Premium</span>
+      <span class="vps-strip-item"><i class="fas fa-lock"></i> Turvallinen maksu</span>
+      <span class="vps-strip-item"><i class="fas fa-headset"></i> Asiakaspalvelu</span>
+    </div>
+
+    <div class="vps-usps">
+      <div>{% render 'icon-check' %} <span>100% Aito ja alkuperäinen nuuskapurkki</span></div>
+      <div>{% render 'icon-check' %} <span>{{ product.metafields.custom.usp_2 | default: 'Slim-formaatti — mukava ja huomaamaton käyttö' }}</span></div>
+      <div>{% render 'icon-check' %} <span>Premium-laatu — tunnetut skandinaaviset valmistajat</span></div>
+    </div>
+
+    <div class="vps-tabs">
+      <div class="vps-tab-heads">
+        <div class="vps-tab-head active" data-tab="desc">Tuotekuvaus</div>
+        <div class="vps-tab-head" data-tab="usage">Käyttöohjeet</div>
+        <div class="vps-tab-head" data-tab="info">Tuotetiedot</div>
+      </div>
+      <div class="vps-tab-body" data-pane="desc">
+        {{ product.description }}
+      </div>
+      <div class="vps-tab-body" data-pane="usage" style="display:none;">
+        <ul>
+          <li><strong>Avaa purkki</strong> — Napsauta kansi auki.</li>
+          <li><strong>Aseta pussi ylähuulen alle</strong> — Ikenien viereen, keskellä tai sivussa.</li>
+          <li><strong>Nauti 15–45 minuuttia</strong> — Nikotiini imeytyy limakalvon kautta.</li>
+          <li><strong>Hävitä käytetty pussi</strong> — Kannen lokeroon tai roskikseen.</li>
+        </ul>
+        <p>Säilytä purkki viileässä ja kuivassa paikassa. Ei saa altistaa suoralle auringonvalolle.</p>
+      </div>
+      <div class="vps-tab-body" data-pane="info" style="display:none;">
+        <table>
+          <tr><td>Brändi</td><td>{{ brand }}</td></tr>
+          <tr><td>Nikotiinivahvuus</td><td>{{ product.metafields.custom.nicotine_strength }}</td></tr>
+          <tr><td>Pussin koko</td><td>{{ product.metafields.custom.pouch_size }}</td></tr>
+          <tr><td>Formaatti</td><td>{{ product.metafields.custom.format }}</td></tr>
+          <tr><td>Pusseja / purkki</td><td>{{ product.metafields.custom.pouches_per_can }}</td></tr>
+          <tr><td>Vahvuustaso</td><td>{{ product.metafields.custom.strength_level }}</td></tr>
+          <tr><td>Tupakaton</td><td>{{ product.metafields.custom.tobacco_free | default: 'Ei — sisältää tupakkakasvia' }}</td></tr>
+          <tr><td>Toimitus</td><td>Ilmainen yli 100€ tilauksiin</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if product.metafields.custom.related_collection != blank -%}
+  {%- assign rel = collections[product.metafields.custom.related_collection] -%}
+{%- else -%}
+  {%- assign rel = collections.all -%}
+{%- endif -%}
+
+<section class="vps-related">
+  <h2>Saatat myös pitää</h2>
+  <div class="pk-grid">
+    {%- assign shown = 0 -%}
+    {%- for p in rel.products -%}
+      {%- if p.id != product.id and shown < 4 -%}
+        {%- render 'product-card', product: p -%}
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+<script>
+(function(){
+  // tabs
+  document.querySelectorAll('.vps-tab-head').forEach(function(h){
+    h.addEventListener('click',function(){
+      document.querySelectorAll('.vps-tab-head').forEach(function(x){x.classList.remove('active');});
+      h.classList.add('active');
+      var key=h.getAttribute('data-tab');
+      document.querySelectorAll('.vps-tab-body').forEach(function(b){
+        b.style.display = b.getAttribute('data-pane')===key ? 'block' : 'none';
+      });
+    });
+  });
+
+  // bundle qty picker
+  var radios = document.querySelectorAll('#vpsBundle input[type=radio]');
+  var hiddenId = document.getElementById('pkVariantId');
+  var totalEl = document.querySelector('[data-vps-total]');
+  var priceEl = document.querySelector('[data-vps-price]');
+  var fmt = window.PK && window.PK.money_format || '€{{amount}}';
+  function money(c){var a=(c/100).toFixed(2);return fmt.replace('{{amount}}',a).replace('{{amount_with_comma_separator}}',a.replace('.',','));}
+  radios.forEach(function(r){r.addEventListener('change',function(){
+    hiddenId.value = r.value;
+    var p = parseInt(r.getAttribute('data-price'),10) || 0;
+    totalEl.textContent = money(p);
+    priceEl.textContent = money(p);
+  });});
+
+  // AJAX add → open drawer
+  var f = document.getElementById('pkProductForm');
+  if (f) f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var fd = new FormData(f);
+    fetch('{{ routes.cart_add_url }}.js', { method:'POST', credentials:'same-origin', headers:{ 'Accept':'application/json' }, body: fd })
+      .then(function(r){ return r.json(); });
+  });
+})();
+</script>
+
+{% schema %}
+{ "name": "Product", "settings": [] }
+{% endschema %}

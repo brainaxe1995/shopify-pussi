@@ -1,0 +1,871 @@
+/* ============================================
+   EM SIDE CART v1.2.1 — PREMIUM UI
+   ============================================ */
+
+/* ============================================
+   AJAX LOADING SPINNER OVERLAY
+   ============================================ */
+.emsc-loader {
+    position: absolute;
+    inset: 0;
+    background: rgba(1, 13, 26, 0.7);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+}
+
+.emsc-loader.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.emsc-spinner {
+    width: 34px;
+    height: 34px;
+    border: 3px solid #1e3a5f;
+    border-top-color: #00b4d8;
+    border-radius: 50%;
+    animation: emscSpin 0.7s linear infinite;
+}
+
+@keyframes emscSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   FLOATING CART BUTTON (FAB)
+   ============================================ */
+.emsc-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00b4d8 0%, #00e5ff 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 99990;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 180, 216, 0.4), 0 0 0 0 rgba(0, 180, 216, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: emscFabPulse 3s ease-in-out infinite;
+}
+
+.emsc-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(0, 180, 216, 0.5);
+    animation: none;
+}
+
+.emsc-fab:active { transform: scale(0.95); }
+
+@keyframes emscFabPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 180, 216, 0.4), 0 0 0 0 rgba(0, 180, 216, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(0, 180, 216, 0.4), 0 0 0 10px rgba(0, 180, 216, 0); }
+}
+
+.emsc-fab-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    line-height: 1;
+    border: 2px solid #010d1a;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+    animation: emscBadgeBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@keyframes emscBadgeBounce {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.emsc-fab.hidden {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+/* ============================================
+   OVERLAY — no flash on load
+   ============================================ */
+.emsc-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 99998;
+    pointer-events: none;
+    transition: none;
+    visibility: hidden;
+}
+
+.emsc-overlay.ready {
+    transition: background 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.emsc-overlay.open {
+    background: rgba(1, 13, 26, 0.6);
+    pointer-events: all;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    visibility: visible;
+    transition: background 0.3s ease, visibility 0s linear 0s;
+}
+
+/* ============================================
+   DRAWER — no flash on load
+   ============================================ */
+.emsc-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    max-width: 94vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #010d1a;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(105%);
+    transition: none;
+    box-shadow: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    visibility: hidden;
+}
+
+.emsc-drawer.ready {
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.32s ease, visibility 0s linear 0.32s;
+}
+
+.emsc-drawer.open {
+    transform: translateX(0);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.4);
+    visibility: visible;
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.32s ease, visibility 0s linear 0s;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.emsc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: #010d1a;
+    border-bottom: 1px solid #1e3a5f;
+    flex-shrink: 0;
+    gap: 8px;
+    min-height: 0;
+}
+
+.emsc-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00b4d8;
+}
+
+.emsc-header-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #caf0f8;
+}
+
+.emsc-header-count {
+    background: #00b4d8;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emsc-close-btn {
+    background: #48cae4;
+    border: none;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    z-index: 10;
+    padding: 0;
+}
+
+.emsc-close-btn svg { display: none; }
+
+.emsc-close-btn:hover {
+    background: #caf0f8;
+}
+
+/* ============================================
+   SHIPPING BAR
+   ============================================ */
+.emsc-shipping-bar {
+    padding: 10px 20px 12px;
+    background: linear-gradient(135deg, #0d1b2a, #0b2545);
+    border-bottom: 1px solid #1e3a5f;
+    flex-shrink: 0;
+}
+
+.emsc-shipping-bar.hidden { display: none; }
+
+.emsc-shipping-text {
+    font-size: 12px;
+    color: #00b4d8;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.emsc-shipping-text .emsc-highlight { color: #00b4d8; font-weight: 800; }
+.emsc-shipping-text .emsc-success-text { color: #059669; }
+
+.emsc-shipping-track {
+    height: 6px;
+    background: #1e3a5f;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.emsc-shipping-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00b4d8, #00e5ff);
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+}
+
+.emsc-shipping-fill.complete {
+    background: linear-gradient(90deg, #059669, #10b981);
+}
+
+/* ============================================
+   BODY
+   ============================================ */
+.emsc-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.emsc-body::-webkit-scrollbar { width: 3px; }
+.emsc-body::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
+
+/* ============================================
+   CART ITEMS — PROMINENT, BOLD, CLEAR
+   ============================================ */
+.emsc-items { padding: 0; }
+
+.emsc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #1e3a5f;
+    position: relative;
+    animation: emscFadeSlide 0.25s ease both;
+}
+
+@keyframes emscFadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.emsc-item:nth-child(1) { animation-delay: 0s; }
+.emsc-item:nth-child(2) { animation-delay: 0.04s; }
+.emsc-item:nth-child(3) { animation-delay: 0.08s; }
+.emsc-item:nth-child(4) { animation-delay: 0.12s; }
+
+/* Product image — nice size */
+.emsc-item-img {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0b2545;
+    border: 1.5px solid #1e3a5f;
+    display: block;
+}
+
+.emsc-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+
+/* Product info — bold & visible */
+.emsc-item-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.emsc-item-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #caf0f8;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.emsc-item-name:hover { color: #00b4d8; }
+
+.emsc-item-variation {
+    font-size: 12px;
+    color: #4a7c9b;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.emsc-item-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: #00b4d8;
+    margin-top: 2px;
+}
+
+.emsc-item-qty-label {
+    font-size: 13px;
+    color: #4a7c9b;
+    font-weight: 600;
+}
+
+/* Right column — remove + total */
+.emsc-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 65px;
+}
+
+.emsc-item-total {
+    font-size: 17px;
+    font-weight: 800;
+    color: #caf0f8;
+}
+
+/* Remove button */
+.emsc-remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4a7c9b;
+    padding: 0;
+    transition: all 0.2s;
+    line-height: 1;
+    font-size: 20px;
+    font-weight: 300;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emsc-remove-btn:hover { color: #ef4444; transform: scale(1.2); }
+
+.emsc-item.removing {
+    animation: emscItemRemove 0.3s ease forwards;
+}
+
+@keyframes emscItemRemove {
+    to { opacity: 0; transform: translateX(60px); max-height: 0; padding: 0 20px; margin: 0; overflow: hidden; }
+}
+
+/* ============================================
+   FLASH SECTION — COMPACT, SUBTLE
+   Between body and footer (above checkout)
+   ============================================ */
+.emsc-flash-section {
+    border-top: 1px solid #1e3a5f;
+    background: #010d1abeb;
+    flex-shrink: 0;
+}
+
+.emsc-flash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 4px;
+    border-bottom: 1px solid #1e3a5f;
+}
+
+.emsc-flash-title-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.emsc-flash-icon {
+    font-size: 13px;
+}
+
+.emsc-flash-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00b4d8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.emsc-flash-timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.emsc-flash-ends {
+    font-size: 9px;
+    color: #4a7c9b;
+    font-weight: 500;
+}
+
+.emsc-flash-timer {
+    font-size: 11px;
+    font-weight: 800;
+    color: #dc2626;
+    font-variant-numeric: tabular-nums;
+    background: #0b2545;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid #1b3a5c;
+    letter-spacing: 1px;
+}
+
+/* Flash Products — compact rows */
+.emsc-flash-products {
+    padding: 6px 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Flash Item — compact single row, prices right-aligned */
+.emsc-flash-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    background: #010d1a;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    position: relative;
+    transition: border-color 0.2s;
+}
+
+.emsc-flash-item:hover {
+    border-color: #00b4d8;
+}
+
+/* Discount tag — overlaps thumb */
+.emsc-flash-tag {
+    position: absolute;
+    top: -3px;
+    left: 4px;
+    font-size: 8px;
+    font-weight: 800;
+    color: #fff;
+    background: #ef4444;
+    padding: 1px 5px;
+    border-radius: 3px;
+    z-index: 2;
+    line-height: 1.3;
+}
+
+/* Thumbnail */
+.emsc-flash-thumb {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0b2545;
+    display: block;
+    flex-shrink: 0;
+}
+
+.emsc-flash-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 2px;
+}
+
+/* Flash Info — name + variant left */
+.emsc-flash-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.emsc-flash-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #48cae4;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.emsc-flash-name:hover { color: #00e5ff; }
+
+/* Flash Price Column — right side, stacked */
+.emsc-flash-price-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    gap: 0;
+    white-space: nowrap;
+}
+
+.emsc-flash-old {
+    font-size: 10px;
+    color: #4a7c9b;
+    text-decoration: line-through;
+    line-height: 1.1;
+}
+
+.emsc-flash-new {
+    font-size: 13px;
+    font-weight: 800;
+    color: #dc2626;
+    line-height: 1.2;
+}
+
+/* ============================================
+   ROUND + BUTTON — text character, always visible
+   ============================================ */
+.emsc-flash-plus {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border: none;
+    background: linear-gradient(135deg, #00b4d8, #00e5ff);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.emsc-flash-plus:hover {
+    background: linear-gradient(135deg, #0096c7, #00b4d8);
+    transform: scale(1.12);
+    box-shadow: 0 3px 10px rgba(0, 180, 216, 0.35);
+}
+
+.emsc-flash-plus:active {
+    transform: scale(0.92);
+}
+
+/* The + text icon */
+.emsc-plus-icon {
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1;
+    color: #fff !important;
+    display: block;
+    margin-top: -1px;
+}
+
+/* Check icon after added */
+.emsc-check-icon {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff !important;
+    display: block;
+}
+
+/* Mini spinner inside button */
+.emsc-btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    display: block;
+    animation: emscSpin 0.6s linear infinite;
+}
+
+.emsc-flash-plus.adding {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.emsc-flash-plus.added {
+    background: linear-gradient(135deg, #059669, #10b981) !important;
+    pointer-events: none;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.emsc-footer {
+    padding: 16px 20px;
+    border-top: 2px solid #1e3a5f;
+    background: #010d1a;
+    flex-shrink: 0;
+}
+
+.emsc-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #4a7c9b;
+    font-weight: 600;
+}
+
+.emsc-subtotal-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: #caf0f8;
+}
+
+.emsc-checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00b4d8 0%, #00e5ff 100%);
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 14px rgba(0, 180, 216, 0.35);
+}
+
+.emsc-checkout-btn:hover {
+    background: linear-gradient(135deg, #0096c7 0%, #00b4d8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 180, 216, 0.4);
+    color: #fff !important;
+}
+
+.emsc-viewcart-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #4a7c9b !important;
+    text-decoration: underline !important;
+    font-weight: 500;
+}
+
+.emsc-viewcart-link:hover { color: #00b4d8 !important; }
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.emsc-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 30px;
+}
+
+.emsc-empty-icon { margin-bottom: 16px; opacity: 0.4; }
+
+.emsc-empty-text {
+    font-size: 15px;
+    color: #4a7c9b;
+    font-weight: 500;
+    margin: 0 0 20px;
+}
+
+.emsc-continue-btn {
+    padding: 10px 28px;
+    background: #00b4d8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.emsc-continue-btn:hover { background: #0096c7; }
+
+/* ============================================
+   MOBILE
+   ============================================ */
+@media (max-width: 480px) {
+    .emsc-drawer {
+        width: 100vw;
+        max-width: 100vw;
+    }
+
+    .emsc-header {
+        padding: 12px 14px;
+    }
+
+    .emsc-close-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        background: #48cae4;
+    }
+
+    .emsc-fab {
+        bottom: 18px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .emsc-fab svg { width: 20px; height: 20px; }
+
+    .emsc-item-img {
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+    }
+
+    .emsc-item { padding: 12px 14px; gap: 10px; }
+    .emsc-item-name { font-size: 13px; }
+    .emsc-item-price { font-size: 14px; }
+    .emsc-item-total { font-size: 15px; }
+
+    .emsc-flash-section { margin-top: 0; }
+    .emsc-flash-products { padding: 4px 10px 8px; gap: 5px; }
+    .emsc-flash-item { padding: 6px 7px; gap: 7px; }
+    .emsc-flash-thumb { width: 36px; height: 36px; min-width: 36px; }
+    .emsc-flash-name { font-size: 11px; }
+    .emsc-flash-new { font-size: 12px; }
+    .emsc-flash-old { font-size: 9px; }
+    .emsc-flash-variant { font-size: 9px; }
+    .emsc-flash-plus { width: 34px; height: 34px; min-width: 34px; }
+    .emsc-plus-icon { font-size: 20px; }
+
+    .emsc-footer { padding: 12px 14px 14px; }
+    .emsc-checkout-btn { padding: 13px 16px; font-size: 14px; }
+    .emsc-subtotal-row { font-size: 14px; margin-bottom: 10px; }
+    .emsc-viewcart-link { font-size: 12px; margin-top: 8px; }
+
+    .emsc-shipping-bar { padding: 8px 14px; }
+}
+
+/* ============================================
+   FLASH VARIANT LABEL - shows "Box 2 • 7.5 mg" etc
+   ============================================ */
+.emsc-flash-variant {
+    font-size: 9.5px;
+    color: #4a7c9b;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* TOTAL LABEL for qty > 1 */
+.emsc-item-total-label {
+    font-size: 10px;
+    color: #4a7c9b;
+    font-weight: 500;
+    display: block;
+    line-height: 1;
+    margin-bottom: 1px;
+}
+
+/* ============================================
+   BODY LOCK
+   ============================================ */
+body.emsc-cart-open {
+    overflow: hidden;
+}
+
+@keyframes emscSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ═══ ARCTIC NORDIC OVERRIDES ═══ */
+.emsc-drawer{background:#010d1a !important;}
+.emsc-header{background:#010d1a !important;border-bottom-color:#1e3a5f !important;}
+.emsc-header-count{background:#00b4d8 !important;color:#010d1a !important;}
+.emsc-close-btn{background:#48cae4 !important;color:#010d1a !important;}
+.emsc-close-btn:hover{background:#90e0ef !important;}
+.emsc-item-img{background:#0b2545 !important;border-color:#1e3a5f !important;}
+.emsc-footer{background:#010d1a !important;border-top-color:#1e3a5f !important;}
+.emsc-checkout-btn{background:linear-gradient(135deg,#00b4d8,#00e5ff) !important;color:#010d1a !important;}
+.emsc-checkout-btn:hover{background:linear-gradient(135deg,#0096c7,#00b4d8) !important;color:#010d1a !important;}
+.emsc-fab{background:linear-gradient(135deg,#00b4d8,#00e5ff) !important;color:#010d1a !important;box-shadow:0 4px 20px rgba(0,180,216,.4) !important;}
+.emsc-fab:hover{box-shadow:0 6px 28px rgba(0,229,255,.5) !important;}
+.emsc-fab-badge{border-color:#010d1a !important;}
+.emsc-continue-btn{background:#00b4d8 !important;color:#010d1a !important;}
+.emsc-continue-btn:hover{background:#0096c7 !important;}
+.emsc-flash-plus{background:linear-gradient(135deg,#00b4d8,#00e5ff) !important;color:#010d1a !important;}
+.emsc-flash-plus:hover{background:linear-gradient(135deg,#0096c7,#00b4d8) !important;}
+.emsc-overlay.open{background:rgba(1,13,26,.6) !important;}
+.emsc-shipping-fill{background:linear-gradient(90deg,#00b4d8,#00e5ff) !important;}
+@keyframes emscFabPulse{0%,100%{box-shadow:0 4px 20px rgba(0,180,216,.4),0 0 0 0 rgba(0,180,216,.3)}50%{box-shadow:0 4px 20px rgba(0,180,216,.4),0 0 0 10px rgba(0,180,216,0)}}

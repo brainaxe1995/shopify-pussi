@@ -1,0 +1,45 @@
+<style>
+.pk-ribbon{background:rgba(0,229,255,.03);border-top:1px solid rgba(0,229,255,.06);border-bottom:1px solid rgba(0,229,255,.06);padding:20px 0;}
+.pk-ribbon-inner{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
+.pk-rib-item{text-align:center;}
+.pk-rib-n{font-family:var(--ff);font-size:28px;font-weight:900;color:var(--ice);display:block;line-height:1;}
+.pk-rib-l{font-family:var(--fb);font-size:11px;color:var(--dim);margin-top:4px;}
+@media(max-width:560px){.pk-ribbon-inner{gap:24px;}.pk-rib-n{font-size:22px;}}
+</style>
+
+<div class="pk-ribbon">
+  <div class="pk-ribbon-inner">
+    {%- for block in section.blocks -%}
+      <div class="pk-rib-item" {{ block.shopify_attributes }}>
+        <span class="pk-rib-n">{{ block.settings.value }}</span>
+        <span class="pk-rib-l">{{ block.settings.label }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Stats ribbon",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value" },
+        { "type": "text", "id": "label", "label": "Label" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Stats ribbon",
+    "blocks": [
+      { "type": "stat", "settings": { "value": "4",   "label": "Premium-brändiä" } },
+      { "type": "stat", "settings": { "value": "7",   "label": "Makuvaihtoehtoa" } },
+      { "type": "stat", "settings": { "value": "3–5", "label": "Pv toimitusaika" } },
+      { "type": "stat", "settings": { "value": "18+", "label": "Vain aikuisille" } }
+    ]
+  }]
+}
+{% endschema %}

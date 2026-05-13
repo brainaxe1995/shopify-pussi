@@ -1,0 +1,111 @@
+<style>
+/* ═══ FROZEN NORSE FOOTER ═══ */
+.pk-ft{font-family:var(--fb);color:var(--frost);background:var(--abyss);border-top:1px solid rgba(0,229,255,.06);position:relative;overflow:hidden;}
+.pk-ft::before{content:'';position:absolute;bottom:0;left:0;right:0;height:300px;background:radial-gradient(ellipse at 50% 100%,rgba(0,229,255,.04) 0%,transparent 60%);pointer-events:none;}
+.pk-ft-wrap{max-width:1340px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+.pk-ft-top{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid rgba(0,229,255,.06);}
+.pk-ft-top-item{display:flex;align-items:center;gap:6px;font-family:var(--ff);font-size:11px;font-weight:600;color:var(--dim);}
+.pk-ft-top-item i{color:var(--ice);font-size:11px;}
+.pk-ft-main{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;padding:44px 0 32px;}
+.pk-ft-brand{max-width:280px;}
+.pk-ft-logo{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.pk-ft-logo img{height:56px!important;width:auto!important;}
+.pk-ft-logo-mark{width:30px;height:30px;border-radius:8px;background:var(--g-aurora);display:flex;align-items:center;justify-content:center;}
+.pk-ft-logo-mark i{font-size:14px;color:var(--abyss);}
+.pk-ft-logo-text{font-family:var(--ff);font-size:16px;font-weight:800;color:#fff;}
+.pk-ft-logo-text span{color:var(--ice);}
+.pk-ft-brand p{font-size:13px;color:var(--dim);line-height:1.65;}
+.pk-ft-col h4{font-family:var(--ff);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:14px;}
+.pk-ft-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+.pk-ft-col ul li a{font-size:13px;color:rgba(202,240,248,.45);transition:.15s;display:flex;align-items:center;gap:6px;}
+.pk-ft-col ul li a:hover{color:var(--ice);}
+.pk-ft-col ul li a i{font-size:7px;color:var(--aurora);flex-shrink:0;opacity:.5;}
+.pk-ft-email{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(202,240,248,.45);transition:.15s;}
+.pk-ft-email:hover{color:var(--ice);}
+.pk-ft-email i{font-size:13px;color:var(--aurora);}
+.pk-ft-trust{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;padding:14px 0;border-top:1px solid rgba(0,229,255,.04);border-bottom:1px solid rgba(0,229,255,.04);}
+.pk-ft-trust-item{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:var(--dim);}
+.pk-ft-trust-item i{color:var(--aurora);font-size:12px;}
+.pk-ft-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 0 24px;}
+.pk-ft-copy{font-size:11px;color:rgba(202,240,248,.3);}
+.pk-ft-copy a{color:rgba(202,240,248,.3);transition:.15s;}.pk-ft-copy a:hover{color:var(--ice);}
+.pk-ft-age{display:inline-flex;align-items:center;gap:6px;background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.08);border-radius:20px;padding:4px 14px;font-family:var(--ff);font-size:10px;font-weight:600;color:var(--dim);}
+.pk-ft-age strong{color:var(--ice);}
+@media(max-width:900px){.pk-ft-main{grid-template-columns:1fr 1fr;gap:24px;}.pk-ft-brand{grid-column:span 2;max-width:100%;}}
+@media(max-width:560px){.pk-ft-main{grid-template-columns:1fr 1fr;gap:20px;padding:28px 0 20px;}.pk-ft-brand{grid-column:span 2;}.pk-ft-top{gap:12px;}.pk-ft-top-item{font-size:10px;}.pk-ft-bottom{flex-direction:column;align-items:center;text-align:center;}}
+</style>
+
+<footer class="pk-ft">
+  <div class="pk-ft-wrap">
+
+    <div class="pk-ft-top">
+      <span class="pk-ft-top-item"><i class="fas fa-snowflake"></i> Ilmainen toimitus yli 100€</span>
+      <span class="pk-ft-top-item"><i class="fas fa-bolt"></i> Lähetykset joka arkipäivä</span>
+      <span class="pk-ft-top-item"><i class="fas fa-tags"></i> Tukkualennukset saatavilla</span>
+    </div>
+
+    <div class="pk-ft-main">
+      <div class="pk-ft-brand">
+        <div class="pk-ft-logo">
+          {%- if section.settings.logo != blank -%}
+            <a href="{{ routes.root_url }}"><img src="{{ section.settings.logo | image_url: width: 240 }}" alt="{{ shop.name }}"></a>
+          {%- else -%}
+            <a href="{{ routes.root_url }}"><img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" style="height:56px;width:auto;"></a>
+          {%- endif -%}
+        </div>
+        <p>Suomen luotettavin pussikauppa. Skandinaavista laatua, nopeaa toimitusta.</p>
+      </div>
+
+      <div class="pk-ft-col">
+        <h4>Kauppa</h4>
+        <ul>
+          <li><a href="{{ routes.all_products_collection_url }}"><i class="fas fa-chevron-right"></i> Kaikki tuotteet</a></li>
+          <li><a href="/collections/odens"><i class="fas fa-chevron-right"></i> Oden's</a></li>
+          <li><a href="/collections/white-fox"><i class="fas fa-chevron-right"></i> White Fox</a></li>
+          <li><a href="/collections/velo"><i class="fas fa-chevron-right"></i> VELO</a></li>
+          <li><a href="/collections/greatest"><i class="fas fa-chevron-right"></i> GREATEST</a></li>
+        </ul>
+      </div>
+
+      <div class="pk-ft-col">
+        <h4>Tietoa</h4>
+        <ul>
+          <li><a href="/pages/about-us"><i class="fas fa-chevron-right"></i> Tietoa meistä</a></li>
+          <li><a href="/pages/faq"><i class="fas fa-chevron-right"></i> UKK</a></li>
+          <li><a href="/policies/privacy-policy"><i class="fas fa-chevron-right"></i> Tietosuoja</a></li>
+          <li><a href="/policies/shipping-policy"><i class="fas fa-chevron-right"></i> Toimitusehdot</a></li>
+          <li><a href="/policies/refund-policy"><i class="fas fa-chevron-right"></i> Tilausehdot</a></li>
+        </ul>
+      </div>
+
+      <div class="pk-ft-col">
+        <h4>Yhteystiedot</h4>
+        <a class="pk-ft-email" href="mailto:{{ section.settings.email | default: 'info@pussikauppa.com' }}"><i class="fas fa-envelope"></i> {{ section.settings.email | default: 'info@pussikauppa.com' }}</a>
+      </div>
+    </div>
+
+    <div class="pk-ft-trust">
+      <span class="pk-ft-trust-item"><i class="fas fa-lock"></i> Turvallinen maksu</span>
+      <span class="pk-ft-trust-item"><i class="fas fa-shield-halved"></i> Premium-tuotteet</span>
+      <span class="pk-ft-trust-item"><i class="fas fa-truck-fast"></i> Nopea toimitus</span>
+      <span class="pk-ft-trust-item"><i class="fas fa-headset"></i> Asiakaspalvelu</span>
+    </div>
+
+    <div class="pk-ft-bottom">
+      <p class="pk-ft-copy">© {{ 'now' | date: '%Y' }} {{ shop.name }}. Kaikki oikeudet pidätetään. · <a href="/policies/privacy-policy">Tietosuoja</a></p>
+      <span class="pk-ft-age">🔞 <strong>18+</strong> Vain täysi-ikäisille — Sisältää nikotiinia</span>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "image_picker", "id": "logo",  "label": "Footer logo" },
+    { "type": "text",         "id": "email", "label": "Contact email", "default": "info@pussikauppa.com" }
+  ],
+  "presets": [{ "name": "Footer" }]
+}
+{% endschema %}

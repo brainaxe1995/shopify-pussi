@@ -1,0 +1,104 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading": "Suosituimmat tuotteet.",
+        "heading_em": "Parhailla hinnoilla.",
+        "guarantee": "100% toimitustakuu suoraan Ruotsista",
+        "delivery_line": "Palvelemme suomeksi · Ilmainen toimitus yli 100€ · 3–5 arkipäivää",
+        "cta1_label": "Kauppa",
+        "cta2_label": "Tietoa meistä",
+        "cta2_url": "/pages/about-us"
+      }
+    },
+    "ribbon": {
+      "type": "stats-ribbon",
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "value": "4",   "label": "Premium-brändiä" } },
+        "s2": { "type": "stat", "settings": { "value": "7",   "label": "Makuvaihtoehtoa" } },
+        "s3": { "type": "stat", "settings": { "value": "3–5", "label": "Pv toimitusaika" } },
+        "s4": { "type": "stat", "settings": { "value": "18+", "label": "Vain aikuisille" } }
+      },
+      "block_order": ["s1","s2","s3","s4"]
+    },
+    "popular": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Suosituimmat pussit",
+        "see_all_label": "Kaikki tuotteet",
+        "collection": "frontpage",
+        "limit": 8
+      }
+    },
+    "referral": {
+      "type": "referral-promo",
+      "settings": {
+        "eyebrow": "⚡ Suomen paras suositteluohjelma",
+        "discount": 20
+      }
+    },
+    "brands": {
+      "type": "brands-grid",
+      "settings": {
+        "eyebrow": "Valikoimamme",
+        "heading": "Neljä brändiä. Yksi standardi.",
+        "subheading": "Vain tunnettujen skandinaavisten valmistajien tuotteita."
+      },
+      "blocks": {
+        "b1": { "type": "brand", "settings": { "name": "Oden's",    "default_asset": "odens-icon.png",    "meta": "Cold Dry Extreme White\n13.2mg · Original 0.75g", "tag": "Extreme",     "tag_icon": "bolt",   "cta": "Osta Oden's",    "icon": "fire",      "url": "shopify://collections/odens" } },
+        "b2": { "type": "brand", "settings": { "name": "White Fox", "default_asset": "whitefox-icon.png", "meta": "3 makua · All White Portion\n12mg · Slim 0.75g",   "tag": "Suosituin",   "tag_icon": "star",   "cta": "Osta White Fox", "icon": "snowflake", "url": "shopify://collections/white-fox" } },
+        "b3": { "type": "brand", "settings": { "name": "VELO",      "default_asset": "velo-icon.png",     "meta": "2 makua · Nicotine Pouches\n10–14mg · Slim 0.7g",  "tag": "Maailman #1", "tag_icon": "globe",  "cta": "Osta VELO",      "icon": "leaf",      "url": "shopify://collections/velo" } },
+        "b4": { "type": "brand", "settings": { "name": "GREATEST",  "default_asset": "greatest-icon.png", "meta": "White Gold Cold Dry\n12mg · Slim 0.7g",            "tag": "G.O.A.T",     "tag_icon": "trophy", "cta": "Osta GREATEST",  "icon": "gem",       "url": "shopify://collections/greatest" } }
+      },
+      "block_order": ["b1","b2","b3","b4"]
+    },
+    "how": {
+      "type": "how-it-works",
+      "settings": {
+        "eyebrow": "Näin helppoa se on",
+        "heading": "Kolme askelta nautintoon",
+        "subheading": "Ei tupakkaa. Ei savua. Ei hajua. Vain puhdasta nikotiinia."
+      },
+      "blocks": {
+        "h1": { "type": "step", "settings": { "title": "Valitse brändisi",      "text": "Oden's, White Fox, VELO tai GREATEST. Seitsemän makua kaikilla vahvuuksilla." } },
+        "h2": { "type": "step", "settings": { "title": "Aseta ylähuulen alle",  "text": "Nikotiini imeytyy limakalvon kautta. Vaikutus alkaa 1–2 minuutissa." } },
+        "h3": { "type": "step", "settings": { "title": "Nauti 15–45 minuuttia", "text": "Pidä pussia paikallaan. Hävitä purkin kannen lokeroon tai roskikseen." } }
+      },
+      "block_order": ["h1","h2","h3"]
+    },
+    "cta": {
+      "type": "cta-section",
+      "settings": {
+        "heading": "Sinun pussisi.",
+        "heading_em": "Sinun valintasi.",
+        "body": "Neljä premium-brändiä Ruotsista. Suomen suosituimmat pussit parhaaseen hintaan. 100% toimitustakuu. Rahat takaisin, jos lähetystä ei kuulu. Tilaa tänään — toimitus 3–5 arkipäivässä.",
+        "cta1_label": "Koko valikoima",
+        "cta2_label": "Ota yhteyttä",
+        "cta2_url": "/pages/contact-us"
+      }
+    },
+    "why": {
+      "type": "why-us",
+      "settings": {
+        "eyebrow": "Miksi Pussikauppa?",
+        "heading": "Luotettava kumppanisi"
+      },
+      "blocks": {
+        "w1": { "type": "feature", "settings": { "icon": "truck-fast",    "title": "Nopea toimitus",     "text": "3–5 arkipäivää. Ilmainen yli 100€ tilauksiin. Seuranta aina mukana." } },
+        "w2": { "type": "feature", "settings": { "icon": "shield-halved", "title": "Premium-laatu",      "text": "Vain tunnettujen valmistajien tuotteita. Oden's, White Fox, VELO, GREATEST." } },
+        "w3": { "type": "feature", "settings": { "icon": "check-double",  "title": "100% toimitustakuu", "text": "Parhaat pussit 100%:lla toimitustakuulla. Ja nopeasti sekä parhailla hinnoilla." } }
+      },
+      "block_order": ["w1","w2","w3"]
+    },
+    "age": {
+      "type": "age-bar",
+      "settings": {
+        "badge": "18+",
+        "title": "Vain täysi-ikäisille",
+        "text": "Tuotteet sisältävät nikotiinia. Ei sovi alaikäisille tai raskaana oleville."
+      }
+    }
+  },
+  "order": ["hero", "ribbon", "popular", "referral", "brands", "how", "cta", "why", "age"]
+}

@@ -1,0 +1,7 @@
+Title,Handle,Body HTML,Sort Order,Match Condition,Condition: Product type is equal to,Image Src,Image Alt Text,Published
+Frontpage,frontpage,"Etusivun valitut tuotteet",manual,,,https://pussikauppa.com/wp-content/uploads/2026/04/hero-2.png,Frontpage,TRUE
+Oden's,odens,"Oden's-brändin nikotiinipussit",manual,all,,https://pussikauppa.com/wp-content/uploads/2026/04/Gemini_Generated_Image_808i07808i07808i-Photoroom-600x600.png,Oden's,TRUE
+White Fox,white-fox,"White Fox -brändin nikotiinipussit",manual,all,,https://pussikauppa.com/wp-content/uploads/2026/04/white-fox.png,White Fox,TRUE
+VELO,velo,"VELO-brändin nikotiinipussit",manual,all,,https://pussikauppa.com/wp-content/uploads/2026/04/velo-1.png,VELO,TRUE
+GREATEST,greatest,"GREATEST-brändin nikotiinipussit",manual,all,,https://pussikauppa.com/wp-content/uploads/2026/04/greatest.png,GREATEST,TRUE
+Flash sale,flash-sale,"Side cart flash-tarjouksen lähdekokoelma — lisää tähän 4-8 tuotetta",manual,,,,Flash sale,TRUE

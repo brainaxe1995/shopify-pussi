@@ -1,0 +1,60 @@
+<style>
+.pk-why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:768px){.pk-why{grid-template-columns:1fr;gap:12px;}}
+.pk-why-card{background:rgba(1,13,26,.4);border:1px solid rgba(0,229,255,.1);border-radius:var(--rl);padding:28px 24px;backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);transition:.25s;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.03);}
+.pk-why-card:hover{border-color:rgba(0,229,255,.25);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.2);}
+.pk-why-ico{width:52px;height:52px;border-radius:14px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;transition:.2s;}
+.pk-why-card:hover .pk-why-ico{background:var(--g-aurora);border-color:transparent;}
+.pk-why-ico i{font-size:20px;color:var(--ice);transition:.2s;}
+.pk-why-card:hover .pk-why-ico i{color:var(--abyss);}
+.pk-why-card h3{font-family:var(--ff);font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+.pk-why-card p{font-family:var(--fb);font-size:12.5px;color:var(--dim);line-height:1.6;}
+</style>
+
+<section class="pk-sec">
+  <div class="pk-wrap">
+    <div class="pk-sec-hdr pk-reveal" style="text-align:center;">
+      <span class="pk-sec-eye">{{ section.settings.eyebrow | default: 'Miksi Pussikauppa?' }}</span>
+      <div class="pk-sec-title">{{ section.settings.heading | default: 'Luotettava kumppanisi' }}</div>
+    </div>
+    <div class="pk-why pk-reveal">
+      {%- for block in section.blocks -%}
+        <div class="pk-why-card" {{ block.shopify_attributes }}>
+          <div class="pk-why-ico"><i class="fas fa-{{ block.settings.icon | default: 'star' }}"></i></div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why us",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Miksi Pussikauppa?" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Luotettava kumppanisi" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "text",     "id": "icon",  "label": "FontAwesome name", "default": "shield-halved" },
+        { "type": "text",     "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text",  "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Why us",
+    "blocks": [
+      { "type": "feature", "settings": { "icon": "truck-fast",    "title": "Nopea toimitus",        "text": "3–5 arkipäivää. Ilmainen yli 100€ tilauksiin. Seuranta aina mukana." } },
+      { "type": "feature", "settings": { "icon": "shield-halved", "title": "Premium-laatu",         "text": "Vain tunnettujen valmistajien tuotteita. Oden's, White Fox, VELO, GREATEST." } },
+      { "type": "feature", "settings": { "icon": "check-double",  "title": "100% toimitustakuu",   "text": "Parhaat pussit 100%:lla toimitustakuulla. Ja nopeasti sekä parhailla hinnoilla." } }
+    ]
+  }]
+}
+{% endschema %}

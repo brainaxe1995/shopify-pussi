@@ -1,0 +1,69 @@
+<!-- ═══ Pussikauppa product card — exact UI clone ═══ -->
+{%- assign p = product -%}
+{%- assign sv = p.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if p.compare_at_price > p.price -%}{%- assign on_sale = true -%}{%- endif -%}
+
+{%- comment -%} find the "10x" tier variant (title contains "10") {%- endcomment -%}
+{%- assign tier_variant = blank -%}
+{%- for v in p.variants -%}
+  {%- if v.title contains '10' and tier_variant == blank -%}
+    {%- assign tier_variant = v -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- unless tier_variant -%}{%- assign tier_variant = sv -%}{%- endunless -%}
+
+<article class="product-card">
+  <a href="{{ p.url }}" class="media">
+    {%- if p.featured_image -%}
+      <img src="{{ p.featured_image | image_url: width: 600 }}" alt="{{ p.title | escape }}" loading="lazy" width="600" height="600">
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+
+    <div class="badges">
+      {%- if p.metafields.custom.badge_top_seller -%}<span class="promo-badge" data-badge="top-seller">Suosittu</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_new -%}<span class="promo-badge" data-badge="new">Uusi</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_trending -%}<span class="promo-badge" data-badge="trending">Trendaa</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_better_price -%}<span class="promo-badge" data-badge="better-price">Parempi hinta</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_favourite -%}<span class="promo-badge" data-badge="favourite">Suosikki</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_flash_sale -%}<span class="promo-badge" data-badge="flash-sale">Flash</span>{%- endif -%}
+      {%- if p.metafields.custom.badge_hot_deal -%}<span class="promo-badge" data-badge="hot-deal">Kuuma diili</span>{%- endif -%}
+    </div>
+
+    {%- if on_sale -%}
+      {%- assign disc = p.compare_at_price | minus: p.price | times: 100 | divided_by: p.compare_at_price -%}
+      <span class="discount-flag">-{{ disc | round }}%</span>
+    {%- endif -%}
+  </a>
+
+  <div class="info">
+    <a href="{{ p.url }}" class="name">{{ p.title }}</a>
+    <div class="alk-row"><span class="alk-label">Alk.</span> <span class="alk-price">{{ sv.price | money }}</span></div>
+
+    <div class="variant-meta">
+      {%- if p.metafields.custom.nicotine_strength != blank -%}{{ p.metafields.custom.nicotine_strength }}{%- endif -%}
+      {%- if p.metafields.custom.pouch_size != blank %} {{ p.metafields.custom.pouch_size }}{%- endif -%}
+      {%- if p.metafields.custom.pouches_per_can != blank %} {{ p.metafields.custom.pouches_per_can }} pussia{%- endif -%}
+    </div>
+
+    {%- if tier_variant and tier_variant != sv -%}
+      {%- assign tier_disc = 0 -%}
+      {%- if sv.price > 0 -%}
+        {%- assign tier_disc = sv.price | minus: tier_variant.price | times: 100 | divided_by: sv.price -%}
+      {%- endif -%}
+      <div class="tier-row">
+        <span class="tier-label">10x</span>
+        <span class="tier-price">{{ tier_variant.price | money }}</span>
+        {%- if tier_disc > 0 -%}<span class="tier-disc">-{{ tier_disc | round }}%</span>{%- endif -%}
+      </div>
+      <div class="tier-total">Yhteensä <strong>{{ tier_variant.price | times: 10 | money }}</strong></div>
+    {%- endif -%}
+
+    {%- if sv and sv.available -%}
+      <button class="add-btn" data-variant-id="{{ sv.id }}">Lisää</button>
+    {%- else -%}
+      <button class="add-btn" disabled>Loppu</button>
+    {%- endif -%}
+  </div>
+</article>

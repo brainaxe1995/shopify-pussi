@@ -1,0 +1,16 @@
+{
+  "general": { "meta": { "tags": "Tagit: {{ tags }}", "page": "Sivu {{ page }}" } },
+  "accessibility": { "skip_to_content": "Siirry sisältöön" },
+  "cart": {
+    "title": "Ostoskori",
+    "empty": "Ostoskori on tyhjä",
+    "continue": "Jatka ostoksia",
+    "subtotal": "Välisumma",
+    "checkout": "Siirry kassalle",
+    "view": "Katso ostoskori",
+    "flash": "Pikatarjous",
+    "ends": "päättyy"
+  },
+  "product": { "add_to_cart": "Lisää ostoskoriin", "sold_out": "Loppu" },
+  "search": { "title": "Haku" }
+}

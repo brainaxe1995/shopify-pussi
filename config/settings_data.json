@@ -1,0 +1,19 @@
+{
+  "current": {
+    "flash_enabled": true,
+    "flash_timer_min": 15,
+    "flash_discount_pct": 25,
+    "flash_collection_handle": "flash-sale",
+    "free_ship_threshold": 100
+  },
+  "platform_customizations": {},
+  "presets": {
+    "Default": {
+      "flash_enabled": true,
+      "flash_timer_min": 15,
+      "flash_discount_pct": 25,
+      "flash_collection_handle": "flash-sale",
+      "free_ship_threshold": 100
+    }
+  }
+}

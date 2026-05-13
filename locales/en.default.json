@@ -1,0 +1,16 @@
+{
+  "general": { "meta": { "tags": "Tagged with {{ tags }}", "page": "Page {{ page }}" } },
+  "accessibility": { "skip_to_content": "Skip to content" },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "continue": "Continue shopping",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "view": "View cart",
+    "flash": "Flash deal",
+    "ends": "ends"
+  },
+  "product": { "add_to_cart": "Add to cart", "sold_out": "Sold out" },
+  "search": { "title": "Search" }
+}

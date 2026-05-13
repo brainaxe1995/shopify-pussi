@@ -1,0 +1,19 @@
+<section class="pk-section">
+  <h1 style="font-size:28px;font-weight:900;color:var(--pk-text);margin:0 0 16px;">{{ 'search.title' | t | default: 'Haku' }}</h1>
+  <form action="{{ routes.search_url }}" method="get" style="display:flex;gap:8px;margin-bottom:24px;">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Etsi…" style="flex:1;padding:12px 14px;border:1.5px solid var(--pk-line);background:var(--pk-bg-2);color:var(--pk-text);border-radius:10px;">
+    <button type="submit" class="pk-btn">Hae</button>
+  </form>
+
+  {%- if search.performed -%}
+    <p class="pk-text-muted">{{ search.results_count }} tulosta haulle "{{ search.terms }}".</p>
+    <div class="pk-grid pk-grid-4" style="margin-top:18px;">
+      {%- for item in search.results -%}
+        {%- if item.object_type == 'product' -%}
+          {%- render 'product-card', product: item -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+{% schema %}{ "name": "Search", "settings": [] }{% endschema %}

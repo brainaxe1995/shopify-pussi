@@ -1,0 +1,43 @@
+<style>
+.pk-products-bg-section{position:relative;}
+.pk-products-bg-section::before{content:'';position:absolute;inset:0;background:rgba(1,13,26,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:0;}
+.pk-products-bg-section .pk-wrap{position:relative;z-index:1;}
+</style>
+
+{%- assign col = collections[section.settings.collection] -%}
+{%- if section.settings.bg_image != blank -%}
+  {%- assign fc_bg = section.settings.bg_image | image_url: width: 1920 -%}
+{%- else -%}
+  {%- assign fc_bg = 'ice2.jpg' | asset_url -%}
+{%- endif -%}
+<section class="pk-sec pk-products-bg-section" style="background:url('{{ fc_bg }}') center/cover no-repeat fixed;">
+  <div class="pk-wrap">
+    <div class="pk-sec-row pk-reveal">
+      <div class="pk-sec-hdr" style="margin-bottom:0;">
+        <div class="pk-sec-title">{{ section.settings.heading | default: 'Suosituimmat pussit' }}</div>
+      </div>
+      <a class="pk-see-all" href="{{ col.url | default: routes.all_products_collection_url }}">{{ section.settings.see_all_label | default: 'Kaikki tuotteet' }} <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="pk-reveal">
+      <div class="pk-grid">
+        {%- for product in col.products limit: section.settings.limit -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text",        "id": "heading",       "label": "Heading",       "default": "Suosituimmat pussit" },
+    { "type": "text",        "id": "see_all_label", "label": "See all label", "default": "Kaikki tuotteet" },
+    { "type": "collection",  "id": "collection",    "label": "Collection" },
+    { "type": "range",       "id": "limit",         "label": "Products", "min": 4, "max": 24, "step": 4, "default": 8 },
+    { "type": "image_picker","id": "bg_image",      "label": "Background image (optional)" }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

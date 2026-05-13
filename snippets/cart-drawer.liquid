@@ -1,0 +1,101 @@
+{%- comment -%}
+  Side cart drawer — 1:1 port of em-side-cart WordPress plugin.
+  Markup mirrors original IDs/classes so original CSS works untouched.
+{%- endcomment -%}
+
+<button class="emsc-fab" id="emscFab" aria-label="Open cart" data-emsc-open>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+  <span class="emsc-fab-badge" id="emscFabBadge"{% if cart.item_count == 0 %} style="display:none"{% endif %}>{{ cart.item_count }}</span>
+</button>
+
+<div class="emsc-overlay" id="emscOverlay"></div>
+
+<div class="emsc-drawer" id="emscDrawer" role="dialog" aria-modal="true" aria-label="Shopping cart">
+  <div class="emsc-loader" id="emscLoader"><div class="emsc-spinner"></div></div>
+
+  <div class="emsc-header">
+    <div class="emsc-header-left">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="emsc-header-title">{{ 'cart.title' | t | default: 'Ostoskorisi' }}</span>
+      <span class="emsc-header-count" id="emscHeaderCount">{{ cart.item_count }}</span>
+    </div>
+    <button class="emsc-close-btn" id="emscCloseBtn" aria-label="Close">&times;</button>
+  </div>
+
+  <div id="emscRefBanner" style="display:none"></div>
+
+  <div class="emsc-shipping-bar" id="emscShippingBar">
+    <div class="emsc-shipping-text" id="emscShippingText"></div>
+    <div class="emsc-shipping-track"><div class="emsc-shipping-fill" id="emscShippingFill"></div></div>
+  </div>
+
+  <div class="emsc-body" id="emscBody">
+    <div class="emsc-items" id="emscItems"></div>
+
+    <div class="emsc-empty" id="emscEmpty" style="display:none">
+      <div class="emsc-empty-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+      </div>
+      <p class="emsc-empty-text">{{ 'cart.empty' | t | default: 'Ostoskori on tyhjä' }}</p>
+      <button class="emsc-continue-btn" id="emscContinueBtn">{{ 'cart.continue' | t | default: 'Jatka ostoksia' }}</button>
+    </div>
+  </div>
+
+  <div class="emsc-flash-section" id="emscFlashSection" style="display:none">
+    <div class="emsc-flash-header">
+      <div class="emsc-flash-title-row">
+        <span class="emsc-flash-icon">⚡</span>
+        <span class="emsc-flash-title">{{ 'cart.flash' | t | default: 'Pikatarjous' }}</span>
+      </div>
+      <div class="emsc-flash-timer-wrap">
+        <span class="emsc-flash-ends">{{ 'cart.ends' | t | default: 'päättyy' }}</span>
+        <div class="emsc-flash-timer" id="emscFlashTimer">00:00</div>
+      </div>
+    </div>
+    <div class="emsc-flash-products" id="emscFlashProducts"></div>
+  </div>
+
+  <div class="emsc-footer" id="emscFooter" style="display:none">
+    <div class="emsc-subtotal-row">
+      <span>{{ 'cart.subtotal' | t | default: 'Välisumma' }}</span>
+      <span class="emsc-subtotal-amount" id="emscSubtotal">{{ cart.total_price | money }}</span>
+    </div>
+    <a href="{{ routes.cart_url }}/checkout" class="emsc-checkout-btn" id="emscCheckoutBtn">
+      {{ 'cart.checkout' | t | default: 'Siirry kassalle' }}
+    </a>
+    <a href="{{ routes.cart_url }}" class="emsc-viewcart-link">{{ 'cart.view' | t | default: 'Katso ostoskori' }}</a>
+  </div>
+</div>
+
+{%- comment -%} Seed flash-sale source: products from the configured flash collection {%- endcomment -%}
+<script type="application/json" id="pk-flash-source">
+{%- assign flash_handle = settings.flash_collection_handle -%}
+{%- if flash_handle != blank -%}
+  {%- assign flash_col = collections[flash_handle] -%}
+  [
+  {%- for p in flash_col.products limit: 6 -%}
+    {
+      "id": {{ p.id | json }},
+      "variant_id": {{ p.selected_or_first_available_variant.id | json }},
+      "name": {{ p.title | json }},
+      "permalink": {{ p.url | json }},
+      "image": {{ p.featured_image | image_url: width: 200 | json }},
+      "price": {{ p.price | json }},
+      "price_html": {{ p.price | money | json }},
+      "variation_label": {{ p.selected_or_first_available_variant.title | json }}
+    }{% unless forloop.last %},{% endunless %}
+  {%- endfor -%}
+  ]
+{%- else -%}
+[]
+{%- endif -%}
+</script>
