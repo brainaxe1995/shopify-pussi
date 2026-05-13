@@ -27,8 +27,9 @@
 .pc-sort select:focus{border-color:var(--v);}
 
 .pc-main{padding:28px 0 48px;}
-.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
-@media(max-width:1200px){.pc-grid{grid-template-columns:repeat(3,1fr);gap:14px;}}
+/* Cap each card to 280px max so sparse rows don't stretch the cards full width. */
+.pc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,280px));gap:16px;justify-content:start;}
+@media(max-width:1200px){.pc-grid{grid-template-columns:repeat(3,minmax(0,280px));gap:14px;}}
 @media(max-width:900px){.pc-grid{grid-template-columns:repeat(2,1fr);gap:12px;}}
 @media(max-width:480px){.pc-grid{gap:10px;}}
 
