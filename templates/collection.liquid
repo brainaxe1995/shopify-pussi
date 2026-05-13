@@ -1,14 +1,13 @@
-{%- comment -%} Port of WP archive-product.php + taxonomy-product_cat.php — compact toolbar, hero, fixed-width grid. rev: 3 {%- endcomment -%}
+{%- comment -%} Plain Liquid collection template — bypasses JSON section indirection.
+                Inlines everything so Shopify GitHub sync glitches with section files don't break the page. {%- endcomment -%}
 
 <style>
 .pc-wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
 @media(max-width:768px){.pc-wrap{padding:0 14px;}}
-
 .pc-bc{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:10px 0;}
 .pc-bc-in{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);flex-wrap:wrap;}
 .pc-bc-in a{color:var(--v);text-decoration:none;}.pc-bc-in a:hover{color:var(--f);}
 .pc-bc-in i{font-size:9px;}
-
 .pc-hero{position:relative;overflow:hidden;background:var(--bg-deep);padding:32px 0 26px;isolation:isolate;}
 .pc-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.1) 0%,transparent 60%);pointer-events:none;}
 .pc-hero-in{position:relative;z-index:1;}
@@ -18,26 +17,21 @@
 .pc-hero h1{font-family:var(--ff);font-size:30px;font-weight:900;color:#fff;letter-spacing:-.6px;margin-bottom:6px;}
 @media(max-width:768px){.pc-hero h1{font-size:22px;}}
 .pc-hero p{font-size:13px;color:rgba(202,240,248,.58);line-height:1.55;max-width:520px;}
-
 .pc-bar{background:var(--bg2);border-bottom:1px solid var(--bdr);padding:10px 0;position:sticky;top:80px;z-index:90;}
 @media(max-width:900px){.pc-bar{top:64px;}}
 .pc-bar-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .pc-count{font-size:13px;color:var(--mu);}.pc-count strong{color:var(--v);}
 .pc-sort select{background:var(--w);border:1.5px solid var(--bdr);color:var(--txt);border-radius:8px;padding:8px 30px 8px 12px;font-size:13px;font-family:inherit;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2390e0ef' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;background-size:14px;}
 .pc-sort select:focus{border-color:var(--v);}
-
 .pc-main{padding:28px 0 48px;}
-/* Cap each card to 280px max so sparse rows don't stretch the cards full width. */
 .pc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,280px));gap:16px;justify-content:start;}
 @media(max-width:1200px){.pc-grid{grid-template-columns:repeat(3,minmax(0,280px));gap:14px;}}
 @media(max-width:900px){.pc-grid{grid-template-columns:repeat(2,1fr);gap:12px;}}
 @media(max-width:480px){.pc-grid{gap:10px;}}
-
 .pc-pagination{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:32px;}
 .pc-pagination a,.pc-pagination span{display:block;padding:8px 14px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-weight:600;color:var(--mid);text-decoration:none;background:var(--w);transition:.15s;}
 .pc-pagination a:hover{border-color:var(--v);color:var(--f);}
 .pc-pagination span[aria-current]{background:var(--g);color:#0a0800;border-color:transparent;}
-
 .pc-empty{text-align:center;padding:64px 20px;background:var(--w);border:1.5px solid var(--bdr);border-radius:14px;}
 .pc-empty i{font-size:48px;color:var(--bdr);margin-bottom:16px;display:block;}
 .pc-empty h3{font-size:20px;font-weight:700;color:var(--txt);margin-bottom:8px;}
@@ -76,7 +70,7 @@
   </div>
 </div>
 
-{%- paginate collection.products by section.settings.per_page -%}
+{%- paginate collection.products by 24 -%}
 
 <div class="pc-bar">
   <div class="pc-wrap">
@@ -111,7 +105,6 @@
           {%- render 'product-card', product: product -%}
         {%- endfor -%}
       </div>
-
       {%- if paginate.pages > 1 -%}
         <div class="pc-pagination">
           {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&laquo;</a>{%- endif -%}
@@ -134,12 +127,3 @@
 </div>
 
 {%- endpaginate -%}
-
-{% schema %}
-{
-  "name": "Collection",
-  "settings": [
-    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "default": 24, "label": "Products per page" }
-  ]
-}
-{% endschema %}
