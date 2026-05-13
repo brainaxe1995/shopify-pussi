@@ -1,4 +1,4 @@
 {
-  "sections": { "main": { "type": "main-collection-v2" } },
+  "sections": { "main": { "type": "main-collection" } },
   "order": ["main"]
 }
