@@ -1,0 +1,45 @@
+<div class="vpl-hero">
+  <h1><i class="fas fa-file-contract" style="display:block;font-size:26px;margin-bottom:10px;"></i>Tilausehdot</h1>
+  <p>Lue tilausehtomme ennen ostoksen tekemistä.</p>
+</div>
+<div class="vpl">
+  <div class="vpl-card"><h2><i class="fas fa-info-circle"></i> 1. Yleistä</h2>
+    <p>Verkkokauppa myy tuotteita täysi-ikäisille yksityishenkilöille. Kaikki hinnat sisältävät arvonlisäveron.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-shopping-cart"></i> 2. Tilaaminen</h2>
+    <p>Tuotteet tilataan verkkokaupassa lisäämällä ne ostoskoriin ja maksamalla tilaus. Tilauksen tekemällä asiakas hyväksyy kulloinkin voimassa olevat ehdot.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-credit-card"></i> 3. Maksaminen</h2>
+    <p>Maksaminen tapahtuu suojatussa maksujärjestelmässä. Verkkokauppa ei käsittele maksukorttitietoja.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-truck-fast"></i> 4. Toimitus</h2>
+    <p>Tilaukset toimitetaan asiakkaan ilmoittamaan osoitteeseen. Ilmainen toimitus yli 100€ tilauksiin. Alle 100€ tilauksiin toimituskulut ovat 6,20€.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-clock"></i> 5. Toimitusaika</h2>
+    <p>Käsittelyaika on <strong>1–2 arkipäivää</strong>. Toimitusaika on <strong>3–5 arkipäivää</strong> käsittelystä.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-rotate-left"></i> 6. Palautukset</h2>
+    <p>Tuotteilla ei ole palautus- tai peruutusoikeutta.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-box"></i> 7. Lunastamaton lähetys</h2>
+    <p>Noutamatta jätetty paketti ei ole palautus. Lunastamattomasta lähetyksestä voidaan veloittaa toimituskulut.</p>
+  </div>
+  <div class="vpl-card"><h2><i class="fas fa-triangle-exclamation"></i> 8. Vahingoittuneet lähetykset</h2>
+    <p>Jos tuote on vioittunut tai kadonnut, ota yhteyttä <strong>7 päivän kuluessa</strong> saapumisesta: <a href="mailto:info@pussikauppa.com">info@pussikauppa.com</a></p>
+  </div>
+
+  <div class="vpl-info">
+    <div class="vpl-ii"><i class="fas fa-envelope"></i><a href="mailto:info@pussikauppa.com">info@pussikauppa.com</a></div>
+    <div class="vpl-ii"><i class="fas fa-building"></i><span>{{ shop.name }}</span></div>
+  </div>
+
+  <div class="vpl-cta"><h3>Kysyttävää tilauksesta?</h3>
+    <p>Asiakaspalvelumme auttaa mielellään.</p>
+    <div class="vpl-cta-btns">
+      <a class="vbtn vbtn-w" href="/pages/contact-us"><i class="fas fa-envelope"></i> Ota yhteyttä</a>
+      <a class="vbtn vbtn-g" href="{{ routes.all_products_collection_url }}"><i class="fas fa-shopping-bag"></i> Kauppaan</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}{ "name": "Returns / refunds page" }{% endschema %}

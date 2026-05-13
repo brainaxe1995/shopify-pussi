@@ -1,0 +1,61 @@
+<div class="vpl-hero">
+  <h1><i class="fas fa-lock" style="display:block;font-size:26px;margin-bottom:10px;"></i>Tietosuojaseloste</h1>
+  <p>Kuinka keräämme, käytämme ja suojaamme henkilötietojasi.</p>
+  <span class="vpl-date">Päivitetty: {{ "now" | date: "%B %Y" }}</span>
+</div>
+<div class="vpl">
+  <div class="vpl-hl"><p><strong>{{ shop.name }}</strong> ottaa tietosuoja-asiat vakavasti. Pidämme äärimmäisen hyvää huolta kaikesta tiedosta, mitä asiakkaistamme keräämme tai saamme.</p></div>
+
+  <div class="vpl-card"><h2><i class="fas fa-database"></i> Mitä tietoja keräämme?</h2>
+    <p>Kun käytät sivustoamme tai teet tilauksen, saatamme kerätä:</p>
+    <ul>
+      <li><strong>Tunnistautumistiedot:</strong> nimi</li>
+      <li><strong>Yhteystiedot:</strong> sähköpostiosoite, puhelinnumero, toimitusosoite</li>
+      <li><strong>Maksutiedot:</strong> laskutustiedot (käsitellään maksupalveluntarjoajan kautta)</li>
+      <li><strong>Tekniset tiedot:</strong> IP-osoite, selaintyyppi, vieraillut sivut</li>
+    </ul>
+  </div>
+
+  <div class="vpl-card"><h2><i class="fas fa-circle-question"></i> Mihin tietoja käytetään?</h2>
+    <ul>
+      <li>Tilausten käsittelyyn, toimitukseen ja kirjanpitoon</li>
+      <li>Ikävarmennukseen (lakisääteinen vaatimus nikotiinituotteille)</li>
+      <li>Tilausvahvistusten ja seurantatietojen lähettämiseen</li>
+      <li>Asiakaspalvelupyyntöjen käsittelyyn</li>
+      <li>Sivuston kehittämiseen anonymisoitujen analytiikkatietojen avulla</li>
+    </ul>
+  </div>
+
+  <div class="vpl-card"><h2><i class="fas fa-share-nodes"></i> Kenelle tietoja luovutetaan?</h2>
+    <p>Emme myy henkilötietojasi. Jaamme niitä vain luotettaville kolmansille osapuolille:</p>
+    <ul>
+      <li><strong>Logistiikkakumppanit</strong> — tilauksen toimittamiseksi</li>
+      <li><strong>Maksupalveluntarjoajat</strong> — maksujen suorittamiseksi</li>
+      <li><strong>Analytiikkapalveluntarjoajat</strong> — ainoastaan anonymisoitu data</li>
+    </ul>
+    <p>Kaikki kolmannet osapuolet käsittelevät tietoja GDPR:n mukaisesti.</p>
+  </div>
+
+  <div class="vpl-card"><h2><i class="fas fa-user-shield"></i> Sinun oikeutesi</h2>
+    <p>EU:n tietosuoja-asetuksen (GDPR) nojalla sinulla on oikeus:</p>
+    <ul>
+      <li><strong>Saada pääsy</strong> henkilötietoihisi</li>
+      <li><strong>Korjata</strong> virheellisiä tietoja</li>
+      <li><strong>Poistaa</strong> tietosi</li>
+      <li><strong>Vastustaa</strong> tietojesi käyttöä</li>
+      <li><strong>Peruuttaa suostumus</strong> milloin tahansa</li>
+    </ul>
+    <p>Ota yhteyttä: <a href="mailto:info@pussikauppa.com">info@pussikauppa.com</a></p>
+  </div>
+
+  <div class="vpl-card"><h2><i class="fas fa-shield-halved"></i> Tietoturva</h2>
+    <p>Kaikki maksutiedot käsitellään PCI-yhteensopivien maksupalveluiden kautta. Sivustomme käyttää SSL-salausta (HTTPS).</p>
+  </div>
+
+  <div class="vpl-info">
+    <div class="vpl-ii"><i class="fas fa-envelope"></i><a href="mailto:info@pussikauppa.com">info@pussikauppa.com</a></div>
+    <div class="vpl-ii"><i class="fas fa-building"></i><span>{{ shop.name }}</span></div>
+  </div>
+</div>
+
+{% schema %}{ "name": "Privacy policy page" }{% endschema %}

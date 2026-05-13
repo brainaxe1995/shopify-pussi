@@ -1,0 +1,39 @@
+<style>
+.pk-track{max-width:820px;margin:0 auto;padding:30px 20px 60px;}
+.pk-track-hero{background:var(--bg-deep);padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:14px;position:relative;overflow:hidden;border:1.5px solid var(--bdr);}
+.pk-track-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.08) 0%,transparent 60%);pointer-events:none;}
+.pk-track-hero h2{font-family:var(--ff);font-size:28px;font-weight:900;color:#fff;margin-bottom:8px;position:relative;z-index:1;}
+.pk-track-hero p{font-size:14px;color:var(--mu);position:relative;z-index:1;}
+.pk-track-input{display:flex;gap:10px;margin-bottom:20px;}
+.pk-track-input input{flex:1;padding:14px 18px;border:1.5px solid var(--bdr);border-radius:8px;background:var(--bg2);color:var(--txt);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:.18s;}
+.pk-track-input input:focus{border-color:var(--v);box-shadow:0 0 0 3px rgba(0,180,216,.1);}
+.pk-track-input input::placeholder{color:var(--mu);}
+.pk-track-input button{padding:14px 28px;background:var(--g);color:#0a1628;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.18s;white-space:nowrap;}
+.pk-track-input button:hover{opacity:.88;}
+.pk-track-result{border:1.5px solid var(--bdr);border-radius:14px;padding:16px;min-height:560px;background:var(--bg2);}
+@media(max-width:480px){.pk-track-input{flex-direction:column;}.pk-track-input button{width:100%;}}
+</style>
+
+<div class="pk-track">
+  <div class="pk-track-hero">
+    <h2>📦 Seuraa lähetystäsi</h2>
+    <p>Syötä seurantanumerosi nähdäksesi lähetyksesi tilan.</p>
+  </div>
+  <div class="pk-track-input">
+    <input type="text" id="YQNum" maxlength="50" placeholder="Syötä seurantanumero">
+    <button onclick="doTrack()">Seuraa</button>
+  </div>
+  <div class="pk-track-result" id="YQContainer"></div>
+</div>
+
+<script type="text/javascript" src="//www.17track.net/externalcall.js"></script>
+<script>
+function doTrack(){
+  var num=document.getElementById("YQNum").value;
+  if(num.trim()===""){alert("Syötä seurantanumero.");return;}
+  if(typeof YQV5==='undefined'){alert('Seurantapalvelu ei ole vielä latautunut, yritä hetken päästä.');return;}
+  YQV5.trackSingle({YQ_ContainerId:"YQContainer",YQ_Height:560,YQ_Fc:"0",YQ_Lang:"fi",YQ_Num:num});
+}
+</script>
+
+{% schema %}{ "name": "Tracking page" }{% endschema %}
