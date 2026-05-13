@@ -28,18 +28,6 @@
     <button class="emsc-close-btn" id="emscCloseBtn" aria-label="Close">&times;</button>
   </div>
 
-  <div id="emscRefBanner" style="display:none;margin:0 14px 8px;padding:10px 12px;background:linear-gradient(135deg,rgba(0,180,216,.16),rgba(0,229,255,.08));border:1.5px solid rgba(0,229,255,.32);border-radius:10px;font-size:12px;font-weight:600;color:#caf0f8;line-height:1.5;">
-    <span style="display:inline-block;background:linear-gradient(135deg,#00b4d8,#00e5ff);color:#0a1628;font-weight:800;font-size:10px;padding:2px 7px;border-radius:6px;margin-right:6px;">REF -20%</span>
-    Suosittelualennus aktivoituu automaattisesti kassalla.
-  </div>
-  <script>
-    (function(){
-      try{
-        var d = JSON.parse(localStorage.getItem('pk_ref_code') || 'null');
-        if (d && d.code) document.getElementById('emscRefBanner').style.display = '';
-      } catch(e){}
-    })();
-  </script>
 
   <div class="emsc-shipping-bar" id="emscShippingBar">
     <div class="emsc-shipping-text" id="emscShippingText"></div>

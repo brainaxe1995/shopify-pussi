@@ -1,9 +1,0 @@
-name = "pussi-referral"
-main = "worker.js"
-compatibility_date = "2024-10-01"
-
-# Production vars set via `wrangler secret put` — never committed.
-# [vars]
-#   REFEREE_PCT = "20"
-#   REFERRER_PCT = "20"
-#   COUPON_EXPIRY_DAYS = "90"

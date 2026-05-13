@@ -31,13 +31,6 @@
         "limit": 8
       }
     },
-    "referral": {
-      "type": "referral-promo",
-      "settings": {
-        "eyebrow": "⚡ Suomen paras suositteluohjelma",
-        "discount": 20
-      }
-    },
     "brands": {
       "type": "brands-grid",
       "settings": {
@@ -100,5 +93,5 @@
       }
     }
   },
-  "order": ["hero", "ribbon", "popular", "referral", "brands", "how", "cta", "why", "age"]
+  "order": ["hero", "ribbon", "popular", "brands", "how", "cta", "why", "age"]
 }
