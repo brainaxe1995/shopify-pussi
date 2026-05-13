@@ -190,9 +190,9 @@
       <form id="vF">
         <input type="hidden" id="vVID" name="id" value="{{ v.id }}">
         <input type="hidden" id="vQH" name="quantity" value="10">
-        <button type="submit" class="vsp-atc" id="vAB"{% unless v.available %} disabled{% endunless %}>
+        <button type="submit" class="vsp-atc" id="vAB">
           <i class="fas fa-shopping-bag"></i>
-          <span id="vAT">{% if v.available %}Lisää ostoskoriin{% else %}Loppu varastosta{% endif %}</span>
+          <span id="vAT">Lisää ostoskoriin</span>
         </button>
       </form>
       <p class="vsp-sn">Ilmainen toimitus yli 100€ tilauksiin. Toimitus alle 100€ tilauksiin 6.20€</p>
