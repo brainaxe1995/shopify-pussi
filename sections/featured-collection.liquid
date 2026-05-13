@@ -5,6 +5,9 @@
 </style>
 
 {%- assign col = collections[section.settings.collection] -%}
+{%- if col == blank or col.products.size == 0 -%}
+  {%- assign col = collections['all'] -%}
+{%- endif -%}
 {%- if section.settings.bg_image != blank -%}
   {%- assign fc_bg = section.settings.bg_image | image_url: width: 1920 -%}
 {%- else -%}
