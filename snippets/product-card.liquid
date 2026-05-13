@@ -1,69 +1,63 @@
-<!-- ═══ Pussikauppa product card — exact UI clone ═══ -->
+{%- comment -%} Port of WP content-product-tier.php — Pussikauppa Arctic Nordic product card with tier pricing. {%- endcomment -%}
 {%- assign p = product -%}
 {%- assign sv = p.selected_or_first_available_variant -%}
+{%- assign basePrice = sv.price | divided_by: 100.0 -%}
+{%- assign regular = sv.compare_at_price | divided_by: 100.0 -%}
 {%- assign on_sale = false -%}
-{%- if p.compare_at_price > p.price -%}{%- assign on_sale = true -%}{%- endif -%}
+{%- if regular > basePrice -%}{%- assign on_sale = true -%}{%- assign disc_pct = sv.compare_at_price | minus: sv.price | times: 100.0 | divided_by: sv.compare_at_price | round -%}{%- endif -%}
+{%- assign nic = p.metafields.custom.nicotine_strength -%}
+{%- assign koko = p.metafields.custom.pouch_size -%}
+{%- assign maara = p.metafields.custom.pouches_per_can | default: 20 -%}
 
-{%- comment -%} find the "10x" tier variant (title contains "10") {%- endcomment -%}
-{%- assign tier_variant = blank -%}
-{%- for v in p.variants -%}
-  {%- if v.title contains '10' and tier_variant == blank -%}
-    {%- assign tier_variant = v -%}
-  {%- endif -%}
-{%- endfor -%}
-{%- unless tier_variant -%}{%- assign tier_variant = sv -%}{%- endunless -%}
+{%- comment -%} Tier table — same as WP pk_get_qty_tiers(): 1=>0, 5=>3, 10=>5, 50=>7, 100=>10. {%- endcomment -%}
+{%- assign tier_default_qty = 10 -%}
+{%- assign tier_default_disc = 5 -%}
+{%- assign max_disc = 10 -%}
+{%- assign alk_unit = basePrice | times: 90.0 | divided_by: 100.0 -%}
+{%- assign def_unit = basePrice | times: 95.0 | divided_by: 100.0 -%}
+{%- assign def_total = def_unit | times: tier_default_qty -%}
 
-<article class="product-card">
-  <a href="{{ p.url }}" class="media">
-    {%- if p.featured_image -%}
-      <img src="{{ p.featured_image | image_url: width: 600 }}" alt="{{ p.title | escape }}" loading="lazy" width="600" height="600">
-    {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag }}
-    {%- endif -%}
-
-    <div class="badges">
-      {%- if p.metafields.custom.badge_top_seller -%}<span class="promo-badge" data-badge="top-seller">Suosittu</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_new -%}<span class="promo-badge" data-badge="new">Uusi</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_trending -%}<span class="promo-badge" data-badge="trending">Trendaa</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_better_price -%}<span class="promo-badge" data-badge="better-price">Parempi hinta</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_favourite -%}<span class="promo-badge" data-badge="favourite">Suosikki</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_flash_sale -%}<span class="promo-badge" data-badge="flash-sale">Flash</span>{%- endif -%}
-      {%- if p.metafields.custom.badge_hot_deal -%}<span class="promo-badge" data-badge="hot-deal">Kuuma diili</span>{%- endif -%}
-    </div>
-
+<div class="pk-card" data-card-base="{{ basePrice }}">
+  <a class="pk-img" href="{{ p.url }}?tier={{ tier_default_qty }}">
     {%- if on_sale -%}
-      {%- assign disc = p.compare_at_price | minus: p.price | times: 100 | divided_by: p.compare_at_price -%}
-      <span class="discount-flag">-{{ disc | round }}%</span>
+      <span class="pk-sale">-{{ disc_pct }}%</span>
+    {%- endif -%}
+    {%- if p.featured_image -%}
+      <img src="{{ p.featured_image | image_url: width: 400 }}" alt="{{ p.title | escape }}" loading="lazy">
+    {%- else -%}
+      <img src="{{ 'pouche.jpeg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy">
     {%- endif -%}
   </a>
-
-  <div class="info">
-    <a href="{{ p.url }}" class="name">{{ p.title }}</a>
-    <div class="alk-row"><span class="alk-label">Alk.</span> <span class="alk-price">{{ sv.price | money }}</span></div>
-
-    <div class="variant-meta">
-      {%- if p.metafields.custom.nicotine_strength != blank -%}{{ p.metafields.custom.nicotine_strength }}{%- endif -%}
-      {%- if p.metafields.custom.pouch_size != blank %} {{ p.metafields.custom.pouch_size }}{%- endif -%}
-      {%- if p.metafields.custom.pouches_per_can != blank %} {{ p.metafields.custom.pouches_per_can }} pussia{%- endif -%}
+  <div class="pk-body">
+    <a href="{{ p.url }}" class="pk-name">{{ p.title }}</a>
+    <div class="pk-alk">Alk. <span>{{ alk_unit | times: 100 | money }}</span></div>
+    <div class="pk-specs">
+      {%- if nic != blank -%}<span class="pk-sp">{{ nic }}</span>{%- endif -%}
+      {%- if koko != blank -%}<span class="pk-sp">{{ koko }}</span>{%- endif -%}
+      <span class="pk-sp">{{ maara }} pussia</span>
     </div>
 
-    {%- if tier_variant and tier_variant != sv -%}
-      {%- assign tier_disc = 0 -%}
-      {%- if sv.price > 0 -%}
-        {%- assign tier_disc = sv.price | minus: tier_variant.price | times: 100 | divided_by: sv.price -%}
-      {%- endif -%}
-      <div class="tier-row">
-        <span class="tier-label">10x</span>
-        <span class="tier-price">{{ tier_variant.price | money }}</span>
-        {%- if tier_disc > 0 -%}<span class="tier-disc">-{{ tier_disc | round }}%</span>{%- endif -%}
+    <div class="pk-tiers" data-base="{{ basePrice }}">
+      <div class="pk-tpills">
+        <a href="{{ p.url }}?tier=1"   class="pk-tp" data-qty="1"   data-disc="0"  onclick="pkTier(this,event)">1 kpl</a>
+        <a href="{{ p.url }}?tier=5"   class="pk-tp" data-qty="5"   data-disc="3"  onclick="pkTier(this,event)">5 kpl</a>
+        <a href="{{ p.url }}?tier=10"  class="pk-tp pk-tp-active" data-qty="10" data-disc="5" onclick="pkTier(this,event)">10 kpl</a>
+        <a href="{{ p.url }}?tier=50"  class="pk-tp" data-qty="50"  data-disc="7"  onclick="pkTier(this,event)">50 kpl</a>
+        <a href="{{ p.url }}?tier=100" class="pk-tp" data-qty="100" data-disc="10" onclick="pkTier(this,event)">100 kpl</a>
       </div>
-      <div class="tier-total">Yhteensä <strong>{{ tier_variant.price | times: 10 | money }}</strong></div>
-    {%- endif -%}
+      <div class="pk-tinfo">
+        <span class="tiq">{{ tier_default_qty }}x</span>
+        <span class="tip">{{ def_unit | times: 100 | money }}</span>
+        <span class="tid">-{{ tier_default_disc }}%</span>
+      </div>
+      <div class="pk-ttot">
+        <span class="ttl">Yhteensä</span>
+        <span class="ttp">{{ def_total | times: 100 | money }}</span>
+      </div>
+    </div>
 
-    {%- if sv and sv.available -%}
-      <button class="add-btn" data-variant-id="{{ sv.id }}">Lisää</button>
-    {%- else -%}
-      <button class="add-btn" disabled>Loppu</button>
-    {%- endif -%}
+    <a href="{{ p.url }}?tier={{ tier_default_qty }}" class="pk-btn" data-link="{{ p.url }}">
+      <i class="fas fa-shopping-bag"></i> Osta nyt
+    </a>
   </div>
-</article>
+</div>
