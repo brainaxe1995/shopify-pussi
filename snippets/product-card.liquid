@@ -1,4 +1,5 @@
-{%- comment -%} Port of WP content-product-tier.php — Pussikauppa Arctic Nordic product card with tier pricing. {%- endcomment -%}
+{%- comment -%} Port of WP content-product-tier.php — Pussikauppa Arctic Nordic product card with tier pricing.
+                Currency forced to €-prefix Finnish format so server render matches JS update (no USD flash). {%- endcomment -%}
 {%- assign p = product -%}
 {%- assign sv = p.selected_or_first_available_variant -%}
 {%- assign basePrice = sv.price | divided_by: 100.0 -%}
@@ -12,10 +13,14 @@
 {%- comment -%} Tier table — same as WP pk_get_qty_tiers(): 1=>0, 5=>3, 10=>5, 50=>7, 100=>10. {%- endcomment -%}
 {%- assign tier_default_qty = 10 -%}
 {%- assign tier_default_disc = 5 -%}
-{%- assign max_disc = 10 -%}
 {%- assign alk_unit = basePrice | times: 90.0 | divided_by: 100.0 -%}
 {%- assign def_unit = basePrice | times: 95.0 | divided_by: 100.0 -%}
 {%- assign def_total = def_unit | times: tier_default_qty -%}
+
+{%- comment -%} Euro formatter helper — split into int + 2-decimal comma. {%- endcomment -%}
+{%- capture eur_alk -%}{%- assign a = alk_unit -%}{%- assign ai = a | floor -%}{%- assign ad = a | minus: ai | times: 100 | round -%}€ {{ ai }},{% if ad < 10 %}0{% endif %}{{ ad }}{%- endcapture -%}
+{%- capture eur_unit -%}{%- assign u = def_unit -%}{%- assign ui = u | floor -%}{%- assign ud = u | minus: ui | times: 100 | round -%}€ {{ ui }},{% if ud < 10 %}0{% endif %}{{ ud }}{%- endcapture -%}
+{%- capture eur_total -%}{%- assign t = def_total -%}{%- assign ti = t | floor -%}{%- assign td = t | minus: ti | times: 100 | round -%}€ {{ ti }},{% if td < 10 %}0{% endif %}{{ td }}{%- endcapture -%}
 
 <div class="pk-card" data-card-base="{{ basePrice }}">
   <a class="pk-img" href="{{ p.url }}?tier={{ tier_default_qty }}">
@@ -30,7 +35,7 @@
   </a>
   <div class="pk-body">
     <a href="{{ p.url }}" class="pk-name">{{ p.title }}</a>
-    <div class="pk-alk">Alk. <span>{{ alk_unit | times: 100 | money }}</span></div>
+    <div class="pk-alk">Alk. <span>{{ eur_alk }}</span></div>
     <div class="pk-specs">
       {%- if nic != blank -%}<span class="pk-sp">{{ nic }}</span>{%- endif -%}
       {%- if koko != blank -%}<span class="pk-sp">{{ koko }}</span>{%- endif -%}
@@ -47,12 +52,12 @@
       </div>
       <div class="pk-tinfo">
         <span class="tiq">{{ tier_default_qty }}x</span>
-        <span class="tip">{{ def_unit | times: 100 | money }}</span>
+        <span class="tip">{{ eur_unit }}</span>
         <span class="tid">-{{ tier_default_disc }}%</span>
       </div>
       <div class="pk-ttot">
         <span class="ttl">Yhteensä</span>
-        <span class="ttp">{{ def_total | times: 100 | money }}</span>
+        <span class="ttp">{{ eur_total }}</span>
       </div>
     </div>
 

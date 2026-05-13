@@ -45,16 +45,9 @@
   function rmClass(el, c) { el && el.classList.remove(c); }
   function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
   function money(cents) {
-    // cents -> formatted using shop.money_format if "amount" present, else fallback
-    const amount = (cents / 100).toFixed(2);
-    if (MONEY_FMT.indexOf('{{') !== -1) {
-      return MONEY_FMT
-        .replace('{{amount}}', amount.replace('.', ','))
-        .replace('{{amount_no_decimals}}', Math.round(cents / 100))
-        .replace('{{amount_with_comma_separator}}', amount.replace('.', ','))
-        .replace('{{amount_no_decimals_with_comma_separator}}', String(Math.round(cents / 100)));
-    }
-    return amount + ' ' + (CFG.currency || '');
+    // Force €-prefix Finnish format everywhere (matches Liquid € NN,NN format).
+    const amount = (cents / 100).toFixed(2).replace('.', ',');
+    return '€ ' + amount;
   }
   function showLoader() { addClass(loader, 'active'); }
   function hideLoader() { rmClass(loader, 'active'); }

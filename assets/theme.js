@@ -15,7 +15,7 @@
     var base = parseFloat(wrap.dataset.base) || 0;
     var unit = base * (1 - disc / 100);
     var total = unit * qty;
-    function fmt(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
+    function fmt(n) { return '€ ' + n.toFixed(2).replace('.', ','); }
     var q = wrap.querySelector('.tiq'); if (q) q.textContent = qty + 'x';
     var p = wrap.querySelector('.tip'); if (p) p.textContent = fmt(unit);
     var d = wrap.querySelector('.tid');
