@@ -19,7 +19,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;}
 *{margin:0;padding:0;}
-body{font-family:var(--fb);background:var(--abyss);color:var(--snow);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:80px;}
+body{font-family:var(--fb);background:var(--abyss);color:var(--snow);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:112px;}
 @media(max-width:900px){body{padding-top:64px;}}
 a{text-decoration:none!important;color:inherit;}
 img{display:block;max-width:100%;}
