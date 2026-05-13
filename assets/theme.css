@@ -19,8 +19,10 @@
 }
 *,*::before,*::after{box-sizing:border-box;}
 *{margin:0;padding:0;}
-body{font-family:var(--fb);background:var(--abyss);color:var(--snow);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:112px;}
-@media(max-width:900px){body{padding-top:64px;}}
+/* Top padding clears fixed header (announce bar + nav row).
+   Desktop header: ~30px announce + ~80px nav = 110px; 140 buffers for varying logo sizes. */
+body{font-family:var(--fb);background:var(--abyss);color:var(--snow);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:140px;}
+@media(max-width:900px){body{padding-top:74px;}}
 a{text-decoration:none!important;color:inherit;}
 img{display:block;max-width:100%;}
 button{font-family:inherit;cursor:pointer;}
